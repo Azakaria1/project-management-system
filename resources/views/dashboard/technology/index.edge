@@ -1,0 +1,97 @@
+@layout('layouts.admin')
+
+@section('title')
+Technologies
+@endsection
+
+@section('extracss')
+{{ style('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}
+{{ style('libs/sweetalert2/sweetalert2.min.css') }}
+{{ style('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}
+@endsection
+
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Technologies</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row mb-3">
+
+    <div class="col-9"></div>
+    <div class="col-3">
+        <a class="btn btn-primary waves-effect waves-light float-right text-white btn-rounded" href="/add_technology">
+            <i class="bx bx-user-plus font-size-16 align-middle mr-2"></i> Add Technologies
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Projects</th>
+                            <th>Errors</th>
+                            <th style="width:15%">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @each(technology in technologies)
+                        <tr>
+                            <td>{{technology.name}}</td>
+                            <td><a href="{{ route('technology_project',{tech_id:technology.id}) }}"> {{technology.projects}}</a></td>
+                            <td>{{technology.errors}}</td>
+                            <td >
+                                <div style="text-align: center;">
+                                    <a onclick="clean({{technology.id}});" href="#" data-toggle="tooltip" data-placement="top" title="delete">
+
+                                        <i class=" bx bx-x  font-size-22 align-middle mr-2"></i>
+                                    </a>
+                                    <a href="{{ route('technology_edit',{technology_id:technology.id}) }}" data-toggle="tooltip" data-placement="top" title="edit">
+                                        <i class=" bx bx-pencil  font-size-22 align-middle mr-2"></i>
+                                    </a >
+
+                                </div>
+                            </td>
+                        </tr>
+                        @endeach
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@endsection
+
+@section('extrajs')
+{{ script("js/custom/Technology.js")}}
+{{ script("libs/datatables.net/js/jquery.dataTables.min.js") }}
+{{ script("libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js") }}
+{{ script("libs/datatables.net-buttons/js/dataTables.buttons.min.js") }}
+{{ script("libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js") }}
+{{ script("libs/jszip/jszip.min.js") }}
+{{ script("libs/pdfmake/build/pdfmake.min.js") }}
+{{ script("libs/pdfmake/build/vfs_fonts.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.html5.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.print.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.colVis.min.js") }}
+{{ script("libs/datatables.net-responsive/js/dataTables.responsive.min.js") }}
+{{ script("libs/sweetalert2/sweetalert2.min.js") }}
+{{ script("libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js") }}
+{{ script("js/pages/datatables.init.js") }}
+@endsection

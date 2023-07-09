@@ -1,0 +1,13 @@
+{
+    "title": "Order",
+
+    "order_number" : "Order number",
+    "order_registration_date": "Order registration date",
+    "amount_due": "Amount due",
+    "amount_paid": "Amount paid",
+    "items":"Product Items",
+    "add_order": "Add a order",
+    "update_order": "Update a order"
+    
+  }
+  

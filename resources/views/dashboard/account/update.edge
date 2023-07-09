@@ -1,0 +1,304 @@
+@layout('layouts.admin')
+@section('title')
+edit account
+@endsection
+@section('extracss')
+{{ style('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}
+@endsection
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">edit account</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="card" >
+                            <div class="card-body" >
+                                    <input type="hidden" name="csrf_token" id="csrf_token" value="{{csrfToken}}" >
+                                    <input type="hidden" value="{{user.id}}" id="id" name="id">
+                                    <div id="coba"></div>
+                                    <p style="text-align: center;">Choose an image ..</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                                            <a class="nav-link active mb-2" id="v-pills-left-home-tab" data-toggle="pill" href="#v-pills-left-home" role="tab" aria-controls="v-pills-left-home" aria-selected="true">
+                                                <i class="dripicons-user mr-2 align-middle"></i> Profile
+                                            </a>
+                                            <a class="nav-link mb-2" id="v-pills-left-profile-tab" data-toggle="pill" href="#v-pills-left-profile" role="tab" aria-controls="v-pills-left-profile" aria-selected="false">
+                                                <i class="dripicons-lock  mr-2 align-middle"></i> Password
+                                            </a>
+                                            <a class="nav-link" id="v-pills-left-telegram-tab" data-toggle="pill" href="#v-pills-left-telegram" role="tab" aria-controls="v-pills-left-setting" aria-selected="false">
+                                                <i class="bx bxl-telegram  mr-2 align-middle"></i> Telegram
+                                            </a>
+                                            <a class="nav-link" id="v-pills-left-trello-tab" data-toggle="pill" href="#v-pills-left-trello" role="tab" aria-controls="v-pills-left-setting" aria-selected="false">
+                                                <i class=" bx bxl-trello   mr-2 align-middle"></i> Trello
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="tab-content mt-4 mt-sm-0">
+                                            <div class="tab-pane fade show active" id="v-pills-left-home" role="tabpanel" aria-labelledby="v-pills-left-home-tab">
+                                                <form action="/account/edit" method="POST" >
+                                                    {{ csrfField() }}
+                                                    <input type="hidden" value="{{user.id}}" id="id" name="id">
+                                                    <input type="hidden" value="{{img}}" id="img" name="img">
+                                                        <div class="form-group row">
+                                                            <div class="col-md-12">
+                                                                <label  for="useremail">Email</label>
+                                                            <input required v-model="email" type="email" value="{{user.email}}" class="form-control" name="useremail" id="useremail" placeholder="Enter email">
+                                                        </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-12">
+                                                                <label  for="username">Username</label>
+                                                            <input required v-model="username" type="text" value="{{user.username}}" class="form-control" name="username"  id="username" placeholder="Enter username">
+                                                        </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-12">
+                                                                <label  for="firstname">First Name</label>
+                                                            <input required v-model="firstname" value="{{user.firstname}}" type="text" class="form-control" name="firstname" id="firstname" placeholder="Enter first name">
+                                                        </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-12">
+                                                                <label  for="familyname">Family Name</label>
+                                                            <input required v-model="familyname" value="{{user.familyname}}" type="text" class="form-control" name="familyname" id="familyname" placeholder="Enter family name">
+                                                        </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-12">
+                                                                <label  for="phonenumber">Phone number</label>
+                                                            <input v-model="phonenumber" value="{{user.phonenumber}}" type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number">
+                                                        </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-7"></div>
+                                                            <div class="col-md-2">
+                                                                <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button type="reset" class="btn btn-secondary waves-effect">
+                                                                    Cancel
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                        </div>
+                                                </form>
+                                            </div>
+                                            <div class="tab-pane fade" id="v-pills-left-profile" role="tabpanel" aria-labelledby="v-pills-left-profile-tab">
+                                                <form action="/account/edit" method="POST" >
+
+                                                    {{ csrfField() }}
+                                                    @if(error == 1)
+                                                    <div class="alert alert-danger text-center mb-4" role="alert">
+                                                        Passwords doesn't match
+                                                    </div>
+                                                    @elseif(error == 2)
+                                                    <div class="alert alert-danger text-center mb-4" role="alert">
+                                                        Password incorrent
+                                                    </div>
+                                                    @endif
+                                                    <input type="hidden" value="{{user.id}}" id="id" name="id">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <label >Enter your Password</label>
+                                                        <input required v-model="password" type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Enter your Password">
+                                                    </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-12">
+                                                                <label  for="userpassword">Your new Password</label>
+                                                            <input v-model="password" type="password" class="form-control" name="newpassword" id="newpassword" placeholder="Your new Password">
+                                                        </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-12">
+                                                                <label  for="userpassword">Confirm your new Password</label>
+                                                            <input v-model="password" type="password" class="form-control" name="newpassword2" id="newpassword2" placeholder="Confirm your new Password">
+                                                        </div></div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-7"></div>
+                                                            <div class="col-md-2">
+                                                                <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button type="reset" class="btn btn-secondary waves-effect">
+                                                                    Cancel
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                        </div>
+                                                </form>
+                                            </div>
+                                            <div class="tab-pane fade" id="v-pills-left-telegram" role="tabpanel" aria-labelledby="v-pills-left-telegram-tab">
+                                                <form action="/account/edit" method="POST" >
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <label  for="telegram">Telegram ID</label>
+                                                        <input required v-model="telegram" value="" type="text" class="form-control" name="telegram" id="telegram" placeholder="Enter your telegram ID">
+                                                    </div></div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-7"></div>
+                                                        <div class="col-md-2">
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <button type="reset" class="btn btn-secondary waves-effect">
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-md-1"></div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="tab-pane fade" id="v-pills-left-trello" role="tabpanel" aria-labelledby="v-pills-left-trello-tab">
+                                                <form action="/addtrello" method="POST" >
+                                                    <input type="hidden" value="{{user.id}}" id="id" name="id">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <label  for="key">Trello Key</label>
+                                                        <input required v-model="key" value="" type="text" class="form-control" name="key" id="key" placeholder="Enter your Trello key">
+                                                    </div></div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <label  for="token">Trello Token</label>
+                                                        <input required v-model="token" value="" type="text" class="form-control" name="token" id="token" placeholder="Enter your Trello Token">
+                                                    </div></div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-11">
+                                                            <label  for="board">My board ID</label>
+                                                            <input required v-model="board" value="" type="text" class="form-control" name="board" id="board" onkeyup="search_lists()" placeholder="Enter your Board">
+                                                        </div>
+                                                        <div class="col-md-1" style="margin-top: 6%;" id="spinner-border">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row" id="lists">
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-7"></div>
+                                                        <div class="col-md-2">
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <button type="reset" class="btn btn-secondary waves-effect">
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-md-1"></div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+</div>
+</div>
+<!-- end col -->
+</div>
+@endsection
+@section('extrajs')
+{{ script("libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js") }}
+{{ script("libs/bootstrap/js/bootstrap.bundle.min.js") }}
+{{ script("libs/metismenu/metisMenu.min.js") }}
+{{ script("libs/simplebar/simplebar.min.js") }}
+{{ script("js/pages/form-advanced.init.js") }}
+{{ script("libs/imagepicker/src/js/spartan-multi-image-picker.js") }}
+<script>
+    var img = document.getElementById('img').value;
+    var id = document.getElementById('id').value;
+    $("#coba").spartanMultiImagePicker({
+        fieldName:   'fileUpload',
+        placeholderImage: {
+            image: img,
+            width: '100%'
+        },
+        directUpload :  {
+                loaderIcon: '<i class="fas fa-sync fa-spin"></i>',
+                status:       true,
+                url:          '/uploadimage/'+id,
+                success:      function() { },
+                error:        function() {}
+        },
+    });
+    function search_lists(){
+        var key = document.getElementById("key").value;
+        var token = document.getElementById("token").value;
+        var board = document.getElementById("board").value;
+        var result = document.getElementById("spinner-border");
+        var canvans = [["td","To Do"],["ip","In Progress"],["dn","Done"]]
+        var select = "<div class='col-md-12'> <label  for='key'>";
+        var select2 ="</label> <select class='select2 form-control' name='";
+        var select5 = "' id='"
+        var select3 = "' onchange='selector(this)' > <option disabled selected >-- select an option --</option>";
+        var select4 = "' </select></div>";
+        var option  = "<option value ='"
+        var option2 = "'>"
+        var option3 = "</option>"
+        var lists = document.getElementById("lists");
+        result.innerHTML = "<div class='spinner-border text-primary m-1' role='status' ><span class='sr-only'>Loading...</span></div>";
+        $.ajax({  
+            url: '/search_lists',  
+            method:'get',  
+            data:{key, token, board},
+            success:function(response){  
+                if(response.data=="error"){
+                    result.innerHTML = "<i style:'color=red' class='bx bx-x-circle fa-2x'></i>";
+                    console.log("error")
+                    lists.innerHTML = ''
+                }
+                else{
+                    result.innerHTML = "<i style='color:green' class='bx bx-check-circle fa-2x'></i>";
+                    
+                    var inner = ""
+                    for(var i = 0;i<canvans.length;i++){
+                        inner = inner + select + canvans[i][1] + select2 + canvans[i][0] + select5 + canvans[i][0]   + select3
+                        for(var j = 0;j<response.length;j++){
+                            inner = inner + option + response[j].id + option2 + response[j].name + option3
+                        }
+                        inner = inner + select4
+                    }
+                    lists.innerHTML = inner
+                }
+            },  
+            error:function(response){ 
+                result.innerHTML = "<i style='color:red' class='bx bx-x-circle fa-2x'></i>"; 
+                lists.innerHTML = ''
+            },
+        });
+    }
+    function selector(select){
+        var selects = ['td','ip','dn']
+        var selected = select.options[select.options.selectedIndex].value
+        for(var i=0;i<selects.length;i++){
+            if(selects[i]!=select.id){
+                var query = "#"+selects[i]+" option[value='" + selected + "']"
+                $(query).remove();
+            }
+        }
+    };
+</script>
+@endsection

@@ -1,0 +1,14 @@
+{
+  "title": "Livraison",
+
+  "delivery_number": "Numéro de livraison",
+  "delivery_situation": "Situation de la livraison",
+  "delivery_expected_date": "Date de livraison prévue",
+  "delivery_effective_date": "Date de livraison réelle",
+
+  "add_delivery": "Ajouter une livraison",
+  "udpate_delivery": "Modifier une livraison",
+  "finish_delivery": "Comfirmer une livraison"
+
+  
+}

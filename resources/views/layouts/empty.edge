@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    {{--  todo: replace titles  --}}
+    <title>
+        @!section('title')
+      </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    {{--  <link rel="shortcut icon" href="{{ assets('assets/images/favicon.ico')}}">  --}}
+    <link rel="shortcut icon" href="{{ assetsUrl('images/Logo.svg') }}"> 
+    {{ style('css/bootstrap.min') }}
+    {{ style('css/icons.min') }}
+    {{ style('css/app.min') }}
+
+</head>
+
+<body>
+    <div id="app">
+        @!section('content')
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    {{ script("/js/main") }}
+    {{ script("/libs/bootstrap/js/bootstrap.bundle.min.js") }}
+    {{ script("/libs/jquery/jquery.min.js") }}
+    {{ script("/libs/metismenu/metisMenu.min.jss") }}
+    {{ script("/libs/simplebar/simplebar.min.js") }}
+    {{ script("/libs/node-waves/waves.min.js") }}
+    {{ script("/js/app.js") }}
+</body>
+</html>

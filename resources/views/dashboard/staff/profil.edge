@@ -1,0 +1,357 @@
+@layout('layouts.admin')
+
+@section('title')
+Profile
+@endsection
+
+@section('extracss')
+{{ style('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}
+{{ style('libs/sweetalert2/sweetalert2.min.css') }}
+{{ style('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}
+
+@endsection
+
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Profile</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+ <!-- start row -->
+ <div class="row">
+    <div class="col-md-12 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+
+
+
+                
+                <div class="profile-widgets py-3">
+
+                    <div class="text-center">
+                        <div class="">
+                            <img src="{{ assetsUrl(user.img)}}" alt="" class="avatar-lg mx-auto img-thumbnail rounded-circle">
+                            <div class="online-circle"><i class="fas fa-circle text-success"></i></div>
+                        </div>
+
+                        <div class="mt-3 ">
+                            <a href="#" class="text-dark font-weight-medium font-size-16">{{user.firstname}} {{user.familyname}}</a>
+                            <p class="text-body mt-1 mb-1">{{user.role}}</p>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Personal Information</h5>
+
+               
+
+                <div class="mt-3">
+                    <p class="font-size-12 text-muted mb-1">Email Address</p>
+                    <h6 class="">{{user.email}}</h6>
+                </div>
+
+                <div class="mt-3">
+                    <p class="font-size-12 text-muted mb-1">Phone number</p>
+                    <h6 class="">{{user.phonenumber}}</h6>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+ <!-- 
+    <div class="col-md-12 col-xl-9">
+        <div class="row">
+            <div class="col-md-12 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <p class="mb-2">Completed Projects</p>
+                                <h4 class="mb-0">3,524</h4>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-right">
+                                    <div>
+                                        2.06 % <i class="mdi mdi-arrow-up text-success ml-1"></i>
+                                    </div>
+                                    <div class="progress progress-sm mt-3">
+                                        <div class="progress-bar" role="progressbar" style="width: 62%" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <p class="mb-2">Pending Projects</p>
+                                <h4 class="mb-0">5,362</h4>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-right">
+                                    <div>
+                                        3.12 % <i class="mdi mdi-arrow-up text-success ml-1"></i>
+                                    </div>
+                                    <div class="progress progress-sm mt-3">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <p class="mb-2">Total Revenue</p>
+                                <h4 class="mb-0">6,245</h4>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-right">
+                                    <div>
+                                        2.12 % <i class="mdi mdi-arrow-up text-success ml-1"></i>
+                                    </div>
+                                    <div class="progress progress-sm mt-3">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    -->
+    <!--
+        <div class="card">
+            <div class="card-body">
+
+                
+                <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#experience" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                            <span class="d-none d-sm-block">Experience</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#revenue" role="tab">
+                            <span class="d-none d-sm-block">Revenue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#settings" role="tab">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+
+               
+                <div class="tab-content p-3 text-muted">
+                    <div class="tab-pane active" id="experience" role="tabpanel">
+                        <div class="timeline-count mt-5">
+                        
+                            <div class="row">
+
+                               
+                                <div class="timeline-box col-lg-4">
+                                    <div class="mb-5 mb-lg-0">
+                                        <div class="item-lable bg-primary rounded">
+                                            <p class="text-center text-white">2016 - 20</p>
+                                        </div>
+                                        <div class="timeline-line active">
+                                            <div class="dot bg-primary"></div>
+                                        </div>
+                                        <div class="vertical-line">
+                                            <div class="wrapper-line bg-light"></div>
+                                        </div>
+                                        <div class="bg-light p-4 rounded mx-3">
+                                            <h5>Back end Developer</h5>
+                                            <p class="text-muted mt-1 mb-0">Voluptatem accntium doemque lantium, totam rem aperiam, eaque ipsa quae ab illo quasi sunt explicabo.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                           
+                                <div class="timeline-box col-lg-4">
+                                    <div class="mb-5 mb-lg-0">
+                                        <div class="item-lable bg-primary rounded">
+                                            <p class="text-center text-white">2013 - 16</p>
+                                        </div>
+                                        <div class="timeline-line active">
+                                            <div class="dot bg-primary"></div>
+                                        </div>
+                                        <div class="vertical-line">
+                                            <div class="wrapper-line bg-light"></div>
+                                        </div>
+                                        <div class="bg-light p-4 rounded mx-3">
+                                            <h5>Front end Developer</h5>
+                                            <p class="text-muted mt-1 mb-0">Vivamus ultrices massa tellus, sed convallis urna interdum eu. Pellentesque htant morbi varius mollis et quis nisi.</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                          
+                                <div class="timeline-box col-lg-4">
+                                    <div class="mb-5 mb-lg-0">
+                                        <div class="item-lable bg-primary rounded">
+                                            <p class="text-center text-white">2011 - 13</p>
+                                        </div>
+                                        <div class="timeline-line active">
+                                            <div class="dot bg-primary"></div>
+                                        </div>
+                                        <div class="vertical-line">
+                                            <div class="wrapper-line bg-light"></div>
+                                        </div>
+                                        <div class="bg-light p-4 rounded mx-3">
+                                            <h5>UI /UX Designer</h5>
+                                            <p class="text-muted mt-1 mb-0">Suspendisse potenti. senec netus malesuada fames ac turpis egesta vitae blandit ac tempus nulla.</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                           
+                            </div>
+                          
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="revenue" role="tabpanel">
+                        <div id="revenue-chart" class="apex-charts mt-4"></div>
+                    </div>
+                    <div class="tab-pane" id="settings" role="tabpanel">
+
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input type="text" class="form-control" id="firstname" placeholder="Enter first name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastname">Last Name</label>
+                                    <input type="text" class="form-control" id="lastname" placeholder="Enter last name">
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="userbio">Bio</label>
+                                    <textarea class="form-control" id="userbio" rows="4" placeholder="Write something..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-0">
+                                    <label for="useremail">Email Address</label>
+                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-0">
+                                    <label for="userpassword">Password</label>
+                                    <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                </div>
+                            </div> 
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    -->
+        <div class="card flex-grow-1">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Projects</h4>
+
+                <div class="table-responsive w-100" >
+                    <table class="table table-centered mb-0 " >
+                        <thead>
+                            <tr>
+                                <th scope="col">Projects</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Technology</th>
+                                <th scope="col">Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @each(project in projects)
+                                <tr>
+                                    <td>
+                                        {{project.name}}
+                                    </td>
+                                    <td>{{project.end_date}}</td>
+
+                                    <td>{{project.tech}}</td>
+                                    <td>{{project.status}}</td>
+
+                                </tr>
+                            @endeach
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+ 
+
+</div>
+
+<!-- end row -->
+
+@endsection
+
+@section('extrajs')
+
+
+{{ script("libs/datatables.net/js/jquery.dataTables.min.js") }}
+{{ script("libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js") }}
+{{ script("libs/datatables.net-buttons/js/dataTables.buttons.min.js") }}
+{{ script("libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js") }}
+{{ script("libs/jszip/jszip.min.js") }}
+{{ script("libs/pdfmake/build/pdfmake.min.js") }}
+{{ script("libs/pdfmake/build/vfs_fonts.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.html5.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.print.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.colVis.min.js") }}
+{{ script("libs/datatables.net-responsive/js/dataTables.responsive.min.js") }}
+{{ script("libs/sweetalert2/sweetalert2.min.js") }}
+{{ script("libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js") }}
+{{ script("js/custom/data-table-staff.js") }}
+@endsection

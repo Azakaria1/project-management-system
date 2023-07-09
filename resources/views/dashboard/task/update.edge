@@ -1,0 +1,108 @@
+@layout('layouts.admin')
+
+@section('title')
+Update Task
+@endsection
+
+@section('extracss')
+{{ style('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}
+
+
+
+@endsection
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Update Task</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form  action="{{ route('task_update',{task_id:task_id}) }}" method="POST">
+
+                    {{ csrfField() }}
+
+
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Task name :</label>
+                            <div class="col-md-9">
+                                <input value="{{task.name}}" required class="form-control" type="text" name="name" id="name" placeholder="Task name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Task weight  :</label>
+                            <div class="col-md-9">
+                                <input value="{{task.weight}}" required class="form-control " type="text" name="weight" id="weight" >
+                                <span class="text-muted">from 1 to 9</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Git commit :</label>
+                            <div class="col-md-9">
+                                <input value="{{task.commit}}" class="form-control" type="text" name="commit" id="commit" placeholder="Git commit">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Starting from :</label>
+                            <div class="col-md-2">
+                                <input value="{{task.start_time}}"  class="form-control " type="text" name="start_time" id="start_time" >
+                                <span class="text-muted">e.g "00:00"</span>
+                            </div>
+                            <div class="col-md-2" style="margin:0px;padding:0px;">
+                                <input value="{{task.start_date}}" required class="form-control" type="date" name="start_date" id="start_date" placeholder="Type name">
+                            </div>
+                            <label for="name" class="col-md-1 col-form-label" style="margin-right:-13px;">to :</label>
+                            <div class="col-md-2">
+                                <input value="13:22"  class="form-control " type="text" name="end_time" id="end_time" >
+                                <span class="text-muted">e.g "00:00" {{task.end_time}}</span>
+                            </div>
+                            <div class="col-md-2" style="margin:0px;padding:0px;">
+                                <input value="{{task.end_date}}"  class="form-control" type="date" name="end_date" id="end_date" placeholder="Type name">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Description:</label>
+                            <div class="col-md-9">
+                                <textarea id="description" name="description" class="form-control" maxlength="255" rows="10" placeholder="Task description">{{task.description}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-md-1">
+
+                            <button type="reset" class="btn btn-secondary waves-effect">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-md-1"></div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@endsection
+@section('extrajs')
+{{ script("libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js") }}
+{{ script("js/pages/form-advanced.init.js") }}
+
+@endsection

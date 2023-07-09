@@ -1,0 +1,15 @@
+{
+    "title": "Provider",
+    "companyName": "Company name",
+    "contactName": "contact Name",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "phone": "Phone",
+    "fax": "Fax",
+    "add_provider": "Add a provider",
+    "update_provider": "Update a provider"
+
+    
+  }
+  

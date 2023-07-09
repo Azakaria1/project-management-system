@@ -1,0 +1,123 @@
+@layout('layouts.admin')
+
+@section('title')
+Add Error
+@endsection
+
+@section('extracss')
+{{ style('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}
+
+
+
+@endsection
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Add Error</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form  action="{{ route('error_store',{task_id:task_id}) }}" method="POST">
+                
+                    {{ csrfField() }}
+
+        
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Error message :</label>
+                            <div class="col-md-9">
+                                <input required class="form-control" type="text" name="name" id="name" placeholder="Error name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Git commit :</label>
+                            <div class="col-md-9">
+                                <input required class="form-control" type="text" name="commit" id="commit" placeholder="Git commit">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Error date :</label>
+                            
+                            <div class="col-md-9" >
+                                <input required class="form-control" type="date" name="error_date" id="error_date" placeholder="Type name">
+                            </div>
+                            
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="item-0" class="col-md-3 col-form-label">Technologies :</label>
+                            <div class="col-md-9">
+                                <select class="select2 form-control select2-multiple" name="technology" id="technology" multiple>
+                                    <option disabled>-- select technologies --</option>
+
+                                    @each(technology in technologies)
+                                        <option value="{{technology.id}}">{{technology.name}}</option>
+                                    @endeach
+                                </select>         
+                            </div>
+                            
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Description:</label>
+                            <div class="col-md-9">
+                                <textarea id="description" name="description" class="form-control" maxlength="255" rows="10" placeholder="Error description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Resolve:</label>
+                            <div class="col-md-9">
+                                <textarea id="resolve" name="resolve" class="form-control" maxlength="255" rows="10" placeholder="Error resolve"></textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-6">
+                            <div class="mt-4 mt-lg-0">
+                                <div class="custom-control custom-checkbox mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="is_resolved" name="is_resolved" checked>
+                                    <label class="custom-control-label" for="is_resolved">Is resolved</label>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-md-1">
+                        
+                            <button type="reset" class="btn btn-secondary waves-effect">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-md-1"></div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@endsection
+@section('extrajs')
+{{ script("libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js") }}
+{{ script("libs/bootstrap/js/bootstrap.bundle.min.js") }}
+{{ script("libs/metismenu/metisMenu.min.js") }}
+{{ script("libs/simplebar/simplebar.min.js") }}
+{{ script("js/pages/form-advanced.init.js") }}
+
+@endsection

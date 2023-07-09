@@ -1,0 +1,113 @@
+@layout('layouts.admin')
+
+@section('title')
+error
+@endsection
+
+@section('extracss')
+{{ style('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}
+{{ style('libs/sweetalert2/sweetalert2.min.css') }}
+{{ style('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}
+@endsection
+
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Error</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-9">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>{{error.name}}</h4>
+                        <div class="row">
+                            <div class="col-md-4">Commit : </div>
+                            <div class="col-md-8">{{error.commit}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Description : </div>
+                            <div class="col-md-8">{{error.description}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">State : </div>
+                            <div class="col-md-8">{{error.status}} </div>
+                        </div>
+                        @if(error.is_resolved==1)
+                            <div class="row">
+                                <div class="col-md-4">Resolve : </div>
+                                <div class="col-md-8">{{error.resolve}} </div>
+                            </div>
+                        @endif
+                        <div class="row">
+                            <div class="col-md-4">Error date : </div>
+                            <div class="col-md-8">{{error.error_date}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Task : </div>
+                            <div class="col-md-8">{{error.task}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Technology : </div>
+                            <div class="col-md-8">{{error.technology}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">User : </div>
+                            <div class="col-md-8">{{error.user}} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">   
+                        <div class="row">
+                            <div class="col-md-12">  
+                                @if(error.is_resolved==1)  
+                                <button disabled type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" >Validate the error</a></button>  
+                                @else
+                                <button type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('error_validate',{error_id:error.id}) }}">Validate the error</a></button>  
+                                @endif   
+                                <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('error_edit',{error_id:error.id}) }}">Update the error</a></button> 
+                                <button type="button" class="btn btn-danger btn-block waves-effect waves-light mb-1">Delete the error</button>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+
+@endsection
+
+@section('extrajs')
+{{ script("js/custom/staff.js")}}
+{{ script("libs/datatables.net/js/jquery.dataTables.min.js") }}
+{{ script("libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js") }}
+{{ script("libs/datatables.net-buttons/js/dataTables.buttons.min.js") }}
+{{ script("libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js") }}
+{{ script("libs/jszip/jszip.min.js") }}
+{{ script("libs/pdfmake/build/pdfmake.min.js") }}
+{{ script("libs/pdfmake/build/vfs_fonts.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.html5.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.print.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.colVis.min.js") }}
+{{ script("libs/datatables.net-responsive/js/dataTables.responsive.min.js") }}
+{{ script("libs/sweetalert2/sweetalert2.min.js") }}
+{{ script("libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js") }}
+{{ script("js/pages/datatables.init.js") }}
+@endsection

@@ -1,0 +1,28 @@
+{
+  "french": "Francais",
+  "english": "Anglais",
+  "dashboard": "Tableau de bord",
+  "delayed_persons": "Retards de paiement",
+  "bank": "Nouveaux produits",
+
+
+  "accounts": "Compte",
+  "settings": "Paramètres",
+  "contributions": "Cotisations",
+  "expenses": "Dépenses",
+  "personnel":"Personnel",
+  "warehouses":"Dépôts",
+  "products":"Produits",
+  "providers":"Fournisseurs",
+  "location":"Emplacement",
+  "name": "NOM",
+  "roles":"ROLES",
+  "clients":"Clients",
+  "delevry":"Livraisons",
+  "duties":"taches",
+  "prenom":"PRENOM",
+  "warehouse":"Dépôt",
+  "num":"NUM",
+  "status":"STATUS",
+  "action":"ACTION"
+}

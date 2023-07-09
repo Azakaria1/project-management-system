@@ -1,0 +1,111 @@
+@layout('layouts.admin')
+
+@section('title')
+Update Error
+@endsection
+
+@section('extracss')
+{{ style('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}
+
+
+
+@endsection
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Update Error            </h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form  action="{{ route('error_update',{error_id:error_id}) }}" method="POST">
+                
+                    {{ csrfField() }}
+
+        
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Error message :</label>
+                            <div class="col-md-9">
+                                <input required class="form-control" value="{{error.name}}" type="text" name="name" id="name" placeholder="Error name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Git commit :</label>
+                            <div class="col-md-9">
+                                <input required class="form-control" value="{{error.commit}}" type="text" name="commit" id="commit" placeholder="Git commit">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Error date :</label>
+                            
+                            <div class="col-md-9" >
+                                <input required class="form-control" value="{{error.error_date}}" type="date" name="error_date" id="error_date" placeholder="Type name">
+                            </div>
+                            
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="item-0" class="col-md-3 col-form-label">Technologies :</label>
+                            <div class="col-md-9">
+                                <select class="select2 form-control select2-multiple" name="technology" id="technology" multiple>
+                                    <option disabled>-- select technologies --</option>
+
+                                    @each(technology in technologies)
+                                        <option value="{{technology.id}}">{{technology.name}}</option>
+                                    @endeach
+                                </select>         
+                            </div>
+                            
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Description:</label>
+                            <div class="col-md-9">
+                                <textarea id="description" name="description" class="form-control" maxlength="255" rows="10" placeholder="Error description">{{error.description}}</textarea>
+                            </div>
+                        </div>
+                    
+                    <div class="form-group row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-md-1">
+                        
+                            <button type="reset" class="btn btn-secondary waves-effect">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-md-1"></div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@endsection
+@section('extrajs')
+<script> 
+    $(".select2").val("{{error.technology}}".split(","))
+    $(".select2").trigger('change');
+    </script>
+{{ script("libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js") }}
+{{ script("libs/bootstrap/js/bootstrap.bundle.min.js") }}
+{{ script("libs/metismenu/metisMenu.min.js") }}
+{{ script("libs/simplebar/simplebar.min.js") }}
+{{ script("js/pages/form-advanced.init.js") }}
+
+@endsection

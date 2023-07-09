@@ -1,0 +1,52 @@
+@layout('layouts.admin')
+
+@section('title')
+Calendar
+@endsection
+
+@section('extracss')
+{{ style('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}
+{{ style('libs/sweetalert2/sweetalert2.min.css') }}
+{{ style('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}
+{{ style('libs/fullcalendar/fullcalendar.min.css') }}
+@endsection
+
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Calendar</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input type="hidden" value="{{mytasks}}" id="data">
+                <div id='calendar'></div>
+
+                <div style='clear:both'></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+
+@endsection
+
+@section('extrajs')
+{{ script("libs/moment/moment.js") }}
+{{ script("libs/fullcalendar/fullcalendar.min.js") }}
+{{ script("js/custom/calendar.js") }}
+{{ script("libs/jszip/jszip.min.js") }}
+
+
+
+@endsection

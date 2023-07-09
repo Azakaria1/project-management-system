@@ -1,0 +1,15 @@
+{
+    "title": "Client",
+    "username": "Client code",
+    "name": "Name",
+    "firstname": "First name",
+    "familyname": "Family name",
+    "email": "Email",
+    "address": "Address",
+    "phonenumber": "Phone Number",
+    
+    "update_client": "Update a client",
+    "add_client": "Add a client"
+    
+  }
+  

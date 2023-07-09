@@ -1,0 +1,14 @@
+{
+    "title": "Fourniseur",
+    "companyName": "Nom de la compagnie",
+    "contactName": "Nom du contact",
+    "address": "Addresse",
+    "city": "Ville",
+    "country": "Pays",
+    "phone": "Tele Phone",
+    "fax": "Fax",
+    "add_provider": "Ajouter un fourniseur",
+    "add_provider": "Mettre à jour"
+
+  }
+  

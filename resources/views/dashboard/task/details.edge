@@ -1,0 +1,109 @@
+@layout('layouts.admin')
+
+@section('title')
+Task
+@endsection
+
+@section('extracss')
+{{ style('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}
+{{ style('libs/sweetalert2/sweetalert2.min.css') }}
+{{ style('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}
+@endsection
+
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Task</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-9">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>{{task.name}}</h4>
+                        <div class="row">
+                            <div class="col-md-4">Project : </div>
+                            <div class="col-md-8">{{task.project}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Module : </div>
+                            <div class="col-md-8">{{task.module}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Time frame : </div>
+                            <div class="col-md-8">from {{task.start_time}} {{task.start_date}} to {{task.end_time}} {{task.end_date}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Task weight : </div>
+                            <div class="col-md-8">{{task.weight}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Status : </div>
+                            <div class="col-md-8">{{task.status}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Commit : </div>
+                            <div class="col-md-8">{{task.commit}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Errors : </div>
+                            <div class="col-md-8">{{task.errors}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Description : </div>
+                            <div class="col-md-8">{{task.description}} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">   
+                        <div class="row">
+                            <div class="col-md-12">    
+                                <button type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('task_validate',{task_id:task_id}) }}">Validate the task</a></button>    
+                                <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1">Edit the task</button>    
+                                <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"> <a style=" color: white" href="{{ route('error_create',{task_id:task_id}) }}">Add an error</a></button>    
+                                <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"> <a style=" color: white" href="{{ route('error_list',{task_id:task_id}) }}">Display errors</a></button>    
+                                <button type="button" class="btn btn-danger btn-block waves-effect waves-light mb-1">Delete the task</button>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+
+@endsection
+
+@section('extrajs')
+{{ script("js/custom/staff.js")}}
+{{ script("libs/datatables.net/js/jquery.dataTables.min.js") }}
+{{ script("libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js") }}
+{{ script("libs/datatables.net-buttons/js/dataTables.buttons.min.js") }}
+{{ script("libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js") }}
+{{ script("libs/jszip/jszip.min.js") }}
+{{ script("libs/pdfmake/build/pdfmake.min.js") }}
+{{ script("libs/pdfmake/build/vfs_fonts.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.html5.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.print.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.colVis.min.js") }}
+{{ script("libs/datatables.net-responsive/js/dataTables.responsive.min.js") }}
+{{ script("libs/sweetalert2/sweetalert2.min.js") }}
+{{ script("libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js") }}
+{{ script("js/pages/datatables.init.js") }}
+@endsection

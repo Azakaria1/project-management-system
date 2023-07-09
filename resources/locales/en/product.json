@@ -1,0 +1,11 @@
+{
+    "title": "Product",
+    "product_name": "Product name",
+    "description": "Description",
+    "price": "Price",
+
+    "add_product": "Add a product",
+    "update_product": "Update a product" 
+    
+  }
+  

@@ -1,0 +1,13 @@
+{
+    "title":"Bill",
+    "add_bill": "Add bill",
+    "date_issued": "Date issued",
+    "date_of_paiment": "Date of payment",
+    "amount_due": "Amount due",
+    "amount_paid": "Amount paid",
+    "provider": "Provider",
+    "product_item": "Product item",
+    "new_item": "New item"
+
+  }
+  

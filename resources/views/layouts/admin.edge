@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>
+         @!section('title') 
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+      <link rel="shortcut icon" href="{{ assetsUrl('images/Logo.svg') }}">  
+    
+    {{ style('libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2') }}
+    {{ style('css/bootstrap.min') }}
+    {{ style('libs/select2/css/select2.min') }}
+    {{ style('css/icons.min') }}
+    {{ style('css/app.min') }}
+    @!section('extracss')
+
+</head>
+
+<body data-layout="detached" data-topbar="colored">
+    <div class="container-fluid">
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+
+            @include("partials.header")
+
+            @include('partials.sidebar')
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+
+                <div class="page-content">
+                    <div id="app">
+                    @!section('content')
+                    </div>
+                </div>
+
+                @include("partials.footer")
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    
+    {{ script("libs/jquery/jquery.min") }}
+    {{ script("libs/bootstrap/js/bootstrap.bundle.min") }}
+    {{ script("libs/metismenu/metisMenu.min") }}
+    {{ script("libs/simplebar/simplebar.min") }}
+    {{ script("libs/node-waves/waves.min") }}
+    {{ script("libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min") }}
+    {{ script("libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en") }}
+    {{ script("js/pages/form-validation.init") }}
+    {{ script("libs/parsleyjs/parsley.min.js") }}
+    {{ script("libs/inputmask/min/jquery.inputmask.bundle.min") }}
+    {{ script("js/pages/form-mask.init") }}
+
+    {{ script("libs/select2/js/select2.min") }}
+    {{ script("libs/bootstrap-datepicker/js/bootstrap-datepicker.min") }}
+    {{ script("libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min") }}
+    {{ script("libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min") }}
+    {{ script("libs/bootstrap-maxlength/bootstrap-maxlength.min") }}
+    {{ script("js/pages/form-advanced.init.js") }}
+
+    @!section('extrajs')
+    {{ script("js/app") }}
+    {{ script("js/main") }}
+
+</body>
+</html>

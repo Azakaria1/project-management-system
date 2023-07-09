@@ -1,0 +1,13 @@
+{
+    "title":"Facture",
+    "add_bill": "Ajouter une facture",
+    "date_issued": "Date d'émission",
+    "date_of_paiment": "Date de règlement",
+    "amount_due": "Montant dû",
+    "amount_paid": "Le montant payé",
+    "provider": "Fourniseur",
+    "product_item": "Article de produit",
+    "new_item": "Nouveau article"
+
+  }
+  

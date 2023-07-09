@@ -1,0 +1,225 @@
+@layout('layouts.admin')
+
+@section('title')
+Task
+@endsection
+
+@section('extracss')
+{{ style('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}
+{{ style('libs/sweetalert2/sweetalert2.min.css') }}
+{{ style('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}
+{{ style('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}
+@endsection
+
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Task</h4>
+        </div>
+    </div>
+</div>
+
+<!-- end page title -->
+@if(id_mod)
+<div class="row">
+    <div class="col-9">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>{{module.name}}</h4>
+                        <div class="row">
+                            <div class="col-md-4">Project : </div>
+                            <div class="col-md-8">{{module.project}} </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">Time frame : </div>
+                            <div class="col-md-8">from {{module.start_date}} to {{module.end_date}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Status : </div>
+                            <div class="col-md-8">{{module.status}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Description : </div>
+                            <div class="col-md-8">{{module.description}} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">   
+                        <div class="row">
+                            <div class="col-md-12">    
+                                @if(!restriction)
+                                    <button type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('module_validate',{module_id:id_mod,id_pro:id_pro}) }}">Finish Module</a></button>    
+                                    <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('module_update',{module_id:id_mod}) }}">Edit Module</a></button>  
+                                @endif  
+                                <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"> <a style=" color: white" href="{{ route('task_create',{id_pro:id_pro,id_mod:id_mod}) }}">Add Tasks</a></button>  
+                                @if(!restriction)  
+                                    <button type="button" class="btn btn-danger btn-block waves-effect waves-light mb-1"><a style=" color: white" href="#" onclick="cleant({{id_mod}})">Delete Module</a></button>   
+                                @endif 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@else
+<div class="row mb-3">
+    
+    <div class="col-9"></div>
+    <div class="col-3">
+        <a class="btn btn-primary waves-effect waves-light float-right text-white btn-rounded" href="/task/add">
+            <i class="bx bx-user-plus font-size-16 align-middle mr-2"></i> Add Task
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="/task/search" method="POST">
+                    {{ csrfField() }}
+                <div class="form-group row">
+                   
+                    <div class="col-md-5">
+                        <label>State </label>
+                        <select class="select2 form-control " name="state" id="state">
+                            
+                                <option value="all" selected>All</option>
+                                <option value="td">To do</option>
+                                <option value="pg">In progress</option>
+                                <option value="fn">Finished</option>
+
+                            
+                        </select>         
+                    </div> 
+                    <div class="col-md-5">
+                        <label>Task weight  </label>
+                        <select class="select2 form-control " name="weight" id="weight">
+                            
+                                <option value="0" selected>All</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            
+                        </select>         
+                    </div> 
+                    <div class="col-md-2" style="margin-top: 29px">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light mr-2">
+                            Filter
+                        </button>
+                    </div>
+                    
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @if(id_mod)
+                    <h4>Tasks</h4>
+                    <br>
+                @endif
+                <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th style="width:7%">Weight</th>
+                            <th>Status</th>
+                            <th style="width:18%">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @each(task in tasks)
+                        <tr> 
+                            <td><a href="{{ route('task_details',{task_id:task.id}) }}">  {{task.name}}</a></td>
+                            <td>{{task.start_time}} {{task.start_date}}</td>
+                            <td>{{task.end_time}} {{task.end_date}}</td>
+                            <td>{{task.weight}}</td>
+                            <td>{{{task.status}}}</td>
+                            <td > 
+                                <div style="text-align: center;">
+                                    @if(task.bool==1)
+                                        <a data-toggle="tooltip" data-placement="top" title="validate">
+                                            
+                                            <i class=" bx bx-list-check  font-size-22 align-middle mr-2"></i> 
+                                        </a>
+                                    @else
+                                        <a href="{{ route('task_validate',{task_id:task.id}) }}" data-toggle="tooltip" data-placement="top" title="validate">
+                                            
+                                            <i class=" bx bx-list-check  font-size-22 align-middle mr-2"></i> 
+                                        </a>
+                                    @endif
+                                    <a onclick="clean({{task.id}});" href="#" data-toggle="tooltip" data-placement="top" title="delete">
+                                        
+                                        <i class=" bx bx-x  font-size-22 align-middle mr-2"></i> 
+                                    </a>
+                                    
+                                    <a href="{{ route('task_edit',{task_id:task.id}) }}" data-toggle="tooltip" data-placement="top" title="edit">
+                                        <i class=" bx bx-pencil  font-size-22 align-middle mr-2"></i> 
+                                    </a >
+                                    <a href="{{ route('error_create',{task_id:task.id}) }}" data-toggle="tooltip" data-placement="top" title="Add an error">
+                                        <i class="  mdi mdi-bug-outline  font-size-22 align-middle mr-2"></i> 
+                                    </a >
+                                </div>
+                            </td>
+                        </tr>
+                        @endeach
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@endsection
+
+@section('extrajs')
+{{ script("js/custom/SubTask.js")}}
+{{ script("js/custom/Task.js")}}
+{{ script("libs/datatables.net/js/jquery.dataTables.min.js") }}
+{{ script("libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js") }}
+{{ script("libs/datatables.net-buttons/js/dataTables.buttons.min.js") }}
+{{ script("libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js") }}
+{{ script("libs/jszip/jszip.min.js") }}
+{{ script("libs/pdfmake/build/pdfmake.min.js") }}
+{{ script("libs/pdfmake/build/vfs_fonts.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.html5.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.print.min.js") }}
+{{ script("libs/datatables.net-buttons/js/buttons.colVis.min.js") }}
+{{ script("libs/datatables.net-responsive/js/dataTables.responsive.min.js") }}
+{{ script("libs/sweetalert2/sweetalert2.min.js") }}
+{{ script("libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js") }}
+{{ script("js/pages/datatables.init.js") }}
+@endsection

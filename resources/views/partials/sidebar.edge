@@ -1,0 +1,111 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+    <div class="h-100">
+
+        <div class="user-wid text-center py-4">
+            <div class="user-img">
+                <img src="{{ assetsUrl(img)}}" alt="" class="avatar-md mx-auto rounded-circle">
+            </div>
+            <div class="mt-3">
+                <p class="text-body mt-1 mb-0 font-size-13">{{myname}}</p>
+            </div>
+        </div>
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li>
+                    <a href="/index" class=" waves-effect">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                @if(myrole!='x')
+                <li class="menu-title">Admin</li>
+                
+                <li>
+                    <a href="{{ route('staff_index') }}"  class=" waves-effect">
+                        <i class="bx bx-user"></i>
+                        <span>Staff</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('project_index') }}" class=" waves-effect">
+                        <i class="mdi mdi-format-list-checkbox "></i>
+                        <span>Projects</span>
+                    </a>
+                </li>
+
+
+                
+
+                <li>
+                    
+                    <a href="/team" class=" waves-effect">
+                        <i class="fab fa-github-square "></i>
+                        <span>Teams</span>
+                    </a>
+                </li>
+
+               
+                
+                
+                <li>
+                    <a href="/technology" class=" waves-effect">
+                        <i class=" fas fa-tools "></i>
+                        <span>Technologies</span>
+                    </a>
+                </li>
+                @endif
+                <li class="menu-title"></li>
+
+                <li class="menu-title">Menu</li>
+                <li>
+                    <a href="/myprojects" class=" waves-effect">
+                        <i class="mdi mdi-format-list-numbered"></i>
+                        <span>My projects</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/task" class=" waves-effect">
+                        <i class='mdi mdi-format-list-checks'></i>
+                        <span>My tasks</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('error_index') }}" class=" waves-effect">
+                        <i class="fas fa-ban"></i>
+                        <span>Errors</span>
+                    </a>
+                </li>
+                <li>
+                    
+                    <a href="/myteam" class=" waves-effect">
+                        <i class="fab fa-github-square "></i>
+                        <span>My Teams</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/myaccount" class=" waves-effect">
+                        <i class="mdi mdi-account-multiple-outline"></i>
+                        <span>Account</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/calendar" class=" waves-effect">
+                        <i class=" bx bx-calendar "></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
+<!-- Left Sidebar End -->

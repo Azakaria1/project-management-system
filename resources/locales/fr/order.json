@@ -1,0 +1,13 @@
+{
+    "title": "Commande",
+    
+    "order_number" : "Numero de commande",
+    "order_registration_date" : "Date d'enregistrement de commande",
+    "amount_due": "Montant dû",
+    "amount_paid": "Le montant payé",
+    "items":"Articles de produit",
+    "add_order": "Ajouter une commande",
+    "update_order": "Modifier une commande"
+    
+  }
+  

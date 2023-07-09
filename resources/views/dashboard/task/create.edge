@@ -1,0 +1,124 @@
+@layout('layouts.admin')
+
+@section('title')
+Add Task
+@endsection
+
+@section('extracss')
+{{ style('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}
+
+
+
+@endsection
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Add Task</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @if(id_mod)
+                <form  action="{{ route('task_store',{id_pro:id_pro,id_mod:id_mod}) }}" method="POST">
+                @else
+                <form  action="/task/store" method="POST">
+                @endif
+                    {{ csrfField() }}
+
+        
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Task name :</label>
+                            <div class="col-md-9">
+                                <input required class="form-control" type="text" name="name" id="name" placeholder="Task name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Task weight  :</label>
+                            <div class="col-md-9">
+                                <input required class="form-control input-mask" type="text" name="weight" id="weight" data-inputmask-regex="[1-9]" >
+                                <span class="text-muted">from 1 to 9</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Git commit :</label>
+                            <div class="col-md-9">
+                                <input  class="form-control" type="text" name="commit" id="commit" placeholder="Git commit">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Starting from :</label>
+                            <div class="col-md-2">
+                                <input  class="form-control input-mask" type="text" name="start_time" id="start_time" data-inputmask-regex="(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]">
+                                <span class="text-muted">e.g "00:00"</span>
+                            </div>
+                            <div class="col-md-2" style="margin:0px;padding:0px;">
+                                <input required class="form-control" type="date" name="start_date" id="start_date" placeholder="Type name">
+                            </div>
+                            <label for="name" class="col-md-1 col-form-label" style="margin-right:-13px;">to :</label>
+                            <div class="col-md-2">
+                                <input  class="form-control input-mask" type="text" name="end_time" id="end_time" data-inputmask-regex="(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]">
+                                <span class="text-muted">e.g "00:00"</span>
+                            </div>
+                            <div class="col-md-2" style="margin:0px;padding:0px;">
+                                <input  class="form-control" type="date" name="end_date" id="end_date" placeholder="Type name">
+                            </div>
+                        </div>
+                        @if(id_mod)
+                        <div class="form-group row">
+                            <label for="item-0" class="col-md-3 col-form-label">Team Members :</label>
+                            <div class="col-md-9">
+                                <select class="select2 form-control select2-multiple" name="team" id="team" multiple>
+                                    <option disabled>-- select from team {{team}} --</option>
+
+                                    @each(user in users)
+                                        <option value="{{user.id}}">{{user.firstname}} {{user.familyname}}</option>
+                                    @endeach
+                                </select>         
+                            </div> 
+                        </div>
+                        @endif
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Description:</label>
+                            <div class="col-md-9">
+                                <textarea id="description" name="description" class="form-control" maxlength="255" rows="10" placeholder="Task description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-md-1">
+                        
+                            <button type="reset" class="btn btn-secondary waves-effect">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-md-1"></div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@endsection
+@section('extrajs')
+{{ script("libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js") }}
+{{ script("js/pages/form-advanced.init.js") }}
+
+@endsection

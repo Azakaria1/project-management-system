@@ -1,0 +1,15 @@
+{
+    "title": "Delivery",
+
+    "delivery_number": "Delivery number",
+    "delivery_situation": "Delivery situation",
+    "delivery_expected_date": "Delivery expected date",
+    "delivery_effective_date": "Delivery effective date",
+
+    "add_delivery": "Add a delivery",
+    "update_delivery": "Update a delivery",
+    "finish_delivery": "Confirme a delivery"
+
+    
+  }
+  

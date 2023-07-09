@@ -1,0 +1,74 @@
+@layout('layouts.admin')
+
+@section('title')
+Add Error
+@endsection
+
+@section('extracss')
+{{ style('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}
+
+
+
+@endsection
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18">Add Error</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form  action="{{ route('error_solve',{error_id:error_id}) }}" method="POST">
+                
+                    {{ csrfField() }}
+
+        
+                        
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label">Resolve:</label>
+                            <div class="col-md-9">
+                                <textarea id="resolve" name="resolve" class="form-control" maxlength="255" rows="10" placeholder="Error resolve"></textarea>
+                            </div>
+                        </div>
+                        <br>
+                    
+                    <div class="form-group row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="col-md-1">
+                        
+                            <button type="reset" class="btn btn-secondary waves-effect">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-md-1"></div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@endsection
+@section('extrajs')
+{{ script("libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js") }}
+{{ script("libs/bootstrap/js/bootstrap.bundle.min.js") }}
+{{ script("libs/metismenu/metisMenu.min.js") }}
+{{ script("libs/simplebar/simplebar.min.js") }}
+{{ script("js/pages/form-advanced.init.js") }}
+
+@endsection

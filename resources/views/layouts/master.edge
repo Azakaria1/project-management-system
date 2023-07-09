@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  </head>
+  <body>
+    <header class="header">
+    </header>
+
+    <div class="container">
+      <aside class="sidebar">
+        @section('sidebar') 
+          <p> The default sidebar content </p>
+        @endsection
+      </aside>
+
+      <div class="content">
+        @!section('content') 
+      </div>
+    </div>
+  </body>
+</html>

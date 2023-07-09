@@ -1,0 +1,11 @@
+{
+    "title": "Pack de livraison",
+    "delivery_id": "Id livraison",
+    "delivery_date":"Date de livraison",
+    "deliveries":"Livraisons",
+    "add_delivery": "Ajouter un pack de livraison",
+    "update_delivery": "Modifier un pack de livraison"
+
+    
+  }
+  

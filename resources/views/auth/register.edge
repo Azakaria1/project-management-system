@@ -1,0 +1,85 @@
+@layout('layouts.empty')
+@section('title')
+Register
+@endsection
+@section('content')
+<div class="account-pages my-5 pt-sm-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card overflow-hidden">
+                    <div class="bg-login text-center">
+                        <div class="bg-login-overlay"></div>
+                        <div class="position-relative">
+                            <h5 class="text-white font-size-20">Free Register</h5>
+                            <p class="text-white-50 mb-0">Get your account now</p>
+                            <a href="index.html" class="logo logo-admin mt-4">
+                                <img src="images/Logo.svg" alt="" height="30">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body pt-5">
+                        @if(err)
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{err}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        @endif
+                        <div class="p-2">
+                            <form class="form-horizontal" action="/register" method="POST">
+                                {{ csrfField() }}
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input v-model="firstname" type="text" name="firstname" class="form-control" id="firstname" placeholder="Enter your name">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="familyname">Family Name</label>
+                                    <input v-model="familyname" type="text" name="familyname" class="form-control" id="familyname" placeholder="Enter your family name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phonenumber">Phone number</label>
+                                    <input v-model="phonenumber" type="text" name = "phonenumber" class="form-control" id="phonenumber" placeholder="Enter your phone number">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userpassword">Password</label>
+                                    <input v-model="password" name="password" type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                </div>
+
+
+                                <div class="mt-4">
+                                    <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Register</button>
+                                </div>
+
+                                <div class="mt-4 text-center">
+                                    <p class="mb-0">By registering you agree to the Skote <a href="#" class="text-primary">Terms of Use</a></p>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="mt-5 text-center">
+                    <p>Already have an account ? <a href="/" class="font-weight-medium text-primary"> Login</a> </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

@@ -1,0 +1,16 @@
+{
+    "title":"Tâche",
+    "add_duty": "Ajouter une tâche",
+    "update_duty": "Modifier une tâche",
+
+    "user": "Utilisateur",
+    "status": "Statut",
+
+    "subject": "Titre",
+    "duty_description": "Description de la tâche",
+    "due_date": "Date d'échéance",
+    "duty_date": "Date de la tâche"
+
+
+  }
+  

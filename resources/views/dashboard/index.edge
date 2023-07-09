@@ -1,0 +1,106 @@
+@layout('layouts.admin')
+@section('title')
+Project Managmen System
+@endsection
+@section('extracss')
+{{ style('libs/jkanban/jkanban.min.css') }}
+{{ style('css/app-kanban.css') }}
+
+@endsection
+
+@section('content')
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="page-title mb-0 font-size-18"></h4>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="container">
+            <!-- Basic Kanban App -->
+            <input type="hidden" value="{{data}}" id="data">
+            <section id="kanban-wrapper" class="section">
+                <div class="kanban-overlay"></div>
+                <div class="row">
+                    <div class="col s12">
+                        <!-- New kanban board add button -->
+                        
+                        <!-- kanban container -->
+                        <div id="kanban-app"></div>
+                    </div>
+                </div>
+
+                <!-- User new mail right area -->
+                <div class="kanban-sidebar">
+                    <div class="card quill-wrapper">
+                        <div class="card-content pt-0">
+                            <div class="card-header d-flex pb-2">
+                                <h3 class="card-title">Edit Task</h3>
+                                <div class="close close-icon">
+                                    <i class="bx bx-x "></i>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <!-- form start -->
+                        <br>
+                            <form class="edit-kanban-item p-4" id="edit-kanban-item-form">
+                                {{csrfField()}}
+                                <input type="hidden" class="edit-item-hidden" id="edit-item-hidden" >
+                                <input type="hidden" name="csrf_token" value="{{csrfToken}}" >
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <small  for="edit-item-title">Card Title</small>
+                                        <input type="text" class="form-control edit-kanban-item-title" id="edit-item-title" placeholder="kanban Title">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <small for="edit-item-date">Due Date</small>
+                                        <input type="date" class="form-control edit-kanban-curr-item-date" id="edit-item-date" >
+                                    </div>
+                                </div>
+                                
+
+                                <!-- Compose mail Quill editor -->
+            
+                            
+                                <div class="form-group row">
+                                    <div class="col-md-1"> </div>
+                                    <div class="col-md-6">
+                                        <button type="reset" class="btn btn-secondary waves-effect btn-floating delete-kanban-item">
+                                            <span>Reset</span>
+                                        </button>
+                                        <button type="submit" class="btn btn-primary waves-effect waves-light update-kanban-item btn-floating mr-1">
+                                            <span>Save</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- form start end-->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--/ Sample Project kanban -->
+
+        
+        <div class="content-overlay"></div>
+    </div>
+
+</div>
+<!-- end row -->
+
+
+<!-- end row -->
+@endsection
+@section('extrajs')
+{{ script("js/pages/app-kanban.js")}}
+{{ script("libs/jkanban/jkanban.min.js")}}
+
+@endsection

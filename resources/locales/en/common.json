@@ -1,0 +1,30 @@
+{
+  "french": "French",
+  "english": "English",
+  "dashboard": "Dashboard",
+  "delayed_persons": "Late payments",
+  "bank": "New Products",
+  "contributions": "Contributions",
+  "expenses": "Expenses",
+  "accounts": "Accounts",
+  "settings": "Settings",
+  "personnel":"Staff",
+  "warehouses":"Warehouses",
+  "products":"Products",
+  "providers":"Providers",
+  "location":"Location",
+  "roles":"ROLES",
+  "clients":"Clients",
+  "delevry":"Delevries",
+  "duties":"Duties",
+
+
+
+  "name":"NAME",
+  "prenom":"FAMILY NAME",
+  "warehouse":"WAREHOUSE",
+  "num":"NUM",
+  "status":"STATUS",
+  "action":"ACTION"
+  
+}
