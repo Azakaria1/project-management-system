@@ -254,7 +254,7 @@ class ModuleController {
                 users: users,
             });
         } else if (user.role == "int" || user.role == "emp") {
-            return view.render("module.index");
+            return view.render("pages.403");
         } else {
             return view.render("inv.index");
         }

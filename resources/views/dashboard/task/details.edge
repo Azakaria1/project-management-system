@@ -73,7 +73,7 @@ Task
                         <div class="row">
                             <div class="col-md-12">    
                                 <button type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('task_validate',{task_id:task_id}) }}">Validate the task</a></button>    
-                                <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1">Edit the task</button>    
+                                <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"><a style="color:white" href="{{ route('task_edit',{task_id:task.id}) }}" >Edit the task</a> </button>    
                                 <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"> <a style=" color: white" href="{{ route('error_create',{task_id:task_id}) }}">Add an error</a></button>    
                                 <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"> <a style=" color: white" href="{{ route('error_list',{task_id:task_id}) }}">Display errors</a></button>    
                                 <button type="button" class="btn btn-danger btn-block waves-effect waves-light mb-1">Delete the task</button>    

@@ -121,14 +121,11 @@ class AccountController {
         return response.status(500).send({ data: 'error' })
        } 
     }
-    async addtrello({request, response}) {
+    async addtrello({auth,request, response}) {
       const {id, key, token, board, tp, ip, dn} = request.all();
-      var account = await TrelloAccounts.findByOrFail('user_id', id)
-      if(account != null){
-        const trelloBoards = await TrelloBoards.findByOrFail('id_board', board); 
-
-      }
-      else{
+      console.log("tkherbi9a")
+      var account = await auth.getUser()  /* auth.getUser() */
+     
         if(key!='' && key != undefined && token!='' && token != undefined){
           if(board!='' && board != undefined && tp!='' && tp != undefined && ip!='' && ip != undefined && dn!='' && dn != undefined){
     
@@ -158,7 +155,7 @@ class AccountController {
             });
           }
         }
-      }
+      
     }
 }
 
