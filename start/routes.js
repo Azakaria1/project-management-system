@@ -62,8 +62,6 @@ Route.group(() => {
     Route.get(":id_pro/module/:module_id/validate", "ModuleController.validate").as("module_validate").middleware(["auth"]);
     Route.post(":id_pro/module/:module_id/finish", "ModuleController.finish").as("module_finish").middleware(["auth"]);
 
-
-
     /* tasks */
 
     Route.get(":id_pro/module/:id_mod/task", "TaskController.index").as("task_index");

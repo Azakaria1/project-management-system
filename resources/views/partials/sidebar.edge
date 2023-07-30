@@ -39,9 +39,6 @@
                     </a>
                 </li>
 
-
-                
-
                 <li>
                     
                     <a href="/team" class=" waves-effect">
@@ -49,9 +46,6 @@
                         <span>Teams</span>
                     </a>
                 </li>
-
-               
-                
                 
                 <li>
                     <a href="/technology" class=" waves-effect">
@@ -60,6 +54,7 @@
                     </a>
                 </li>
                 @endif
+                @if(myrole !='not')
                 <li class="menu-title"></li>
 
                 <li class="menu-title">Menu</li>
@@ -82,8 +77,8 @@
                         <span>Errors</span>
                     </a>
                 </li>
+                
                 <li>
-                    
                     <a href="/myteam" class=" waves-effect">
                         <i class="fab fa-github-square "></i>
                         <span>My Teams</span>
@@ -99,10 +94,10 @@
                 <li>
                     <a href="/calendar" class=" waves-effect">
                         <i class=" bx bx-calendar "></i>
-                        <span>Calendar</span>
+                        <span>Planification</span>
                     </a>
                 </li>
-
+                @endif
             </ul>
         </div>
         <!-- Sidebar -->

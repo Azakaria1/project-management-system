@@ -3535,7 +3535,7 @@ input[type="button"].btn-block {
   list-style: none; }
 
 .nav-link {
-  display: block;
+  display: inline-flex;
   padding: 0.5rem 1rem; }
   .nav-link:hover, .nav-link:focus {
     text-decoration: none; }
@@ -3968,7 +3968,10 @@ input[type="button"].btn-block {
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   min-height: 1px;
-  padding: 1.25rem; }
+  padding: 1.25rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;}
 
 .card-title {
   margin-bottom: 0.75rem; }

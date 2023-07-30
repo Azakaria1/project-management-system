@@ -26,7 +26,6 @@ Update staff
             <div class="card-body">
                 <form action="{{ route('update_staff',{staff_id:staff.id}) }}" method="POST">
                     {{ csrfField() }}
-
         
                     <div class="form-group row">
                         <label for="role" class="col-md-3 col-form-label">Role :</label>
@@ -35,8 +34,8 @@ Update staff
                                 
                                     <option value="adm">Admin</option>
                                     <option value="int">Intern</option>
-                                    <option value="emp">Employee</option>
-                                    <option value="not">Undefeated role</option>
+                                    <option value="adm">Employee</option>
+                                    <option value="tl">Team Leader</option>
                                 
                             </select>         
                         </div> 

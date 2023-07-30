@@ -52,6 +52,7 @@ Teams
                             <td>{{team.members}} </td>
                             <td > 
                                 <div style="text-align: center;">
+                                    @if(!restriction)
                                     <a onclick="clean({{team.id}});" href="#" data-toggle="tooltip" data-placement="top" title="delete">
 
                                         <i class=" bx bx-x  font-size-22 align-middle mr-2"></i>
@@ -60,6 +61,7 @@ Teams
                                         <i class=" bx bx-pencil  font-size-22 align-middle mr-2"></i>
                                     </a >
 
+                                    @endif
                                 </div>
                             </td>
                         </tr>
