@@ -3,12 +3,23 @@ const User = use("App/Models/User");
 const Hash = use("Hash");
 
 class UserController {
-  
-  async login({ request, response, auth }) {
+  async login({ request, response, session, auth }) {
     const { username, password } = request.all();
 
     try {
+      console.table(auth);
+      console.log("gdv");
       await auth.attempt(username, password);
+      auth
+        .getUser()
+        .then((user) => {
+          session.put("role", user.role);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error(error);
+        });
+
       return response.redirect("/index");
     } catch (error) {
       console.log(error);

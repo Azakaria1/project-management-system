@@ -7,21 +7,17 @@ const fetch = (...args) =>
 
 class DashboardController {
 
-  async index({ auth, view }) {
+  async index({ auth, view, session }) {
     const user = await auth.getUser();
+
+      console.log("ROLE => "+ session.get('role'));
+
     var r, data, ii, n;
     
-    console.log("user role => " + user.role);
+    //console.log("user role => " + user.role);
     if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
        ii = user.img;
        n = user.firstname + " " + user.familyname;
-//      var r; 
-      if (user.role != "adm") {
-        r = "x";
-      }
-      if (user.role == "not") {
-        r = "not";
-      }
       const todo = await Database.select("sub_tasks.*")
         .from("sub_tasks")
         .innerJoin(
@@ -101,7 +97,7 @@ class DashboardController {
         img: ii,
         myname: n,
         data: JSON.stringify(data),
-        myrole: r,
+        myrole: session.get('role'),
       });
     }/*  else {
       return view.render("inv.index", {
@@ -111,6 +107,7 @@ class DashboardController {
         myrole: r,
       });
     } */
+    
   }
   async edit({ response, request }) {
     const { id, date, title } = request.all();

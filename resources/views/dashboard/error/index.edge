@@ -42,28 +42,34 @@ Error
                             <td><a href="{{ route('error_details',{error_id:error.id}) }}">{{error.name}}<a></td>
                             <td>{{error.error_date}} </td>
                             <td>{{error.technology}} </td>
-                            <td>{{error.status}}</td>
+
+                            @if(error.is_resolved == 1)
+                            <td>resolved</td>
+                            @else
+                            <td>not yet</td>
+                            @endif
                             <td > 
                                 <div style="text-align: center;">
                                     @if(error.is_resolved == 1)
-                                        <a  data-toggle="tooltip" data-placement="top" title="delete">
+                                        <a  data-toggle="tooltip" data-placement="top" title="resolve">
                                             
                                             <i class=" mdi mdi-bug-check-outline font-size-22 align-middle mr-2"></i> 
                                         </a>
                                     @else
-                                        <a  href="{{ route('error_solve',{error_id:error.id}) }}" data-toggle="tooltip" data-placement="top" title="delete">
+                                        <a  href="{{ route('error_solve',{error_id:error.id}) }}" data-toggle="tooltip" data-placement="top" title="resolve">
                                             
                                             <i class=" mdi mdi-bug-check-outline font-size-22 align-middle mr-2"></i> 
                                         </a>
                                     @endif
-                                    <a onclick="clean({{error.id}});" href="#" data-toggle="tooltip" data-placement="top" title="delete">
+                                   @if(allowed)
+                                   <a onclick="clean({{error.id}});" href="#" data-toggle="tooltip" data-placement="top" title="delete">
                                         
-                                        <i class=" bx bx-x  font-size-22 align-middle mr-2"></i> 
-                                    </a>
-                                    <a href="{{ route('error_edit',{error_id:error.id}) }}"  data-toggle="tooltip" data-placement="top" title="edit">
-                                        <i class=" bx bx-pencil  font-size-22 align-middle mr-2"></i> 
-                                    </a >
-                                    
+                                    <i class=" bx bx-x  font-size-22 align-middle mr-2"></i> 
+                                </a>
+                                <a href="{{ route('error_edit',{error_id:error.id}) }}"  data-toggle="tooltip" data-placement="top" title="edit">
+                                    <i class=" bx bx-pencil  font-size-22 align-middle mr-2"></i> 
+                                </a >
+                                @endif
                                 </div>
                             </td>
                         </tr>

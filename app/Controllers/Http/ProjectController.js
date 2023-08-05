@@ -7,7 +7,6 @@ const TechPro = use("App/Models/TechPro");
 const Hash = use("Hash");
 
 class ProjectController {
-
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (user.role == "adm") {
@@ -107,7 +106,12 @@ class ProjectController {
 
   async myIndex({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const projects = await Database.select(
         "projects.*",
         Database.raw("teams.name as team"),
@@ -200,9 +204,9 @@ class ProjectController {
 
   async create({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm"  || user.role == "tl") {
+    if (user.role == "adm" || user.role == "tl") {
       // const users = await Database.from("users");
-const users = await Database.from('users').where('role', '=', 'tl');
+      const users = await Database.from("users").where("role", "=", "tl");
       const teams = await Database.from("teams");
       const technologies = await Database.from("technologies");
       var i = user.img;
@@ -218,7 +222,7 @@ const users = await Database.from('users').where('role', '=', 'tl');
         technologies: technologies,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else if (user.role == "int" || user.role == "emp") {
       return response.redirect("/index");
@@ -243,30 +247,27 @@ const users = await Database.from('users').where('role', '=', 'tl');
     } = request.all();
 
     const project = new Project();
-    if (name != "" && name != undefined) {
-      project.name = name;
-    }
-    if (type != "" && type != undefined) {
-      project.type = type;
-    }
-    if (git_link != "" && git_link != undefined) {
-      project.git_link = git_link;
-    }
-    if (start_date != "" && start_date != undefined) {
+    if (name != "" && name != undefined) project.name = name;
+
+    if (type != "" && type != undefined) project.type = type;
+
+    if (git_link != "" && git_link != undefined) project.git_link = git_link;
+
+    if (start_date != "" && start_date != undefined)
       project.start_date = start_date;
-    }
-    if (end_date != "" && end_date != undefined) {
-      project.end_date = end_date;
-    }
-    if (leader_id != "" && leader_id != undefined) {
+
+    if (end_date != "" && end_date != undefined) project.end_date = end_date;
+
+    if (user.role == "tl") project.leader_id = user.id;
+
+    if (leader_id != "" && leader_id != undefined)
       project.leader_id = leader_id;
-    }
-    if (team_id != "" && team_id != undefined) {
-      project.team_id = team_id;
-    }
-    if (description != "" && description != undefined) {
+
+    if (team_id != "" && team_id != undefined) project.team_id = team_id;
+
+    if (description != "" && description != undefined)
       project.description = description;
-    }
+
     await project.save().then(function () {
       console.log("a team has been add");
     });

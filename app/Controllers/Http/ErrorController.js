@@ -4,6 +4,7 @@ const Database = use("Database");
 const User = use("App/Models/User");
 const Error = use("App/Models/Error");
 const Hash = use("Hash");
+
 class ErrorController {
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
@@ -21,8 +22,6 @@ class ErrorController {
         )
           .from("errors")
           .innerJoin("technologies", "technologies.id", "errors.technology_id");
-
-        console.log("errors => " + errors);
       } else {
         errors = await Database.select(
           "errors.*",
@@ -31,8 +30,6 @@ class ErrorController {
           .from("errors")
           .innerJoin("technologies", "technologies.id", "errors.technology_id")
           .where("errors.user_id", user.id);
-
-        console.log("errors => " + errors);
       }
       for (var i = 0; i < errors.length; i++) {
         errors[i].error_date = dateMaker(errors[i].error_date);
@@ -48,11 +45,21 @@ class ErrorController {
       if (user.role != "adm") {
         r = "x";
       }
+      var isUserAuthorizedToModifyError = await Error.query()
+        .where("user_id", user.id)
+        .first();
+
+      isUserAuthorizedToModifyError != null
+        ? (isUserAuthorizedToModifyError = true)
+        : (isUserAuthorizedToModifyError = false);
+
+      console.table(isUserAuthorizedToModifyError);
       return view.render("dashboard.error.index", {
         errors: errors,
         img: i,
         myname: n,
         myrole: r,
+        allowed: isUserAuthorizedToModifyError,
       });
     } else {
       return view.render("inv.index");
@@ -110,31 +117,18 @@ class ErrorController {
   /************************************************ Substask Error */
 
   async index2({ response, auth, view, params }) {
-
     const user = await auth.getUser();
-    if (
-      user.role == "adm" ||
-      user.role == "int" ||
-      user.role == "emp" ||
-      user.role == "tl"
-    ) {
+
+    if (user.role == "adm" || user.role == "int" || user.role == "emp") {
       const task_id = params.task_id;
-      
-      const errors = await Error.query()
-  .where('errors.subtask_id', task_id)
-  .with('technology')
-  .fetch();
 
-  console.table(errors.toJSON())
-
-      console.table(errors);
-
-      errors.toJSON().forEach(async (element) => {
-        const technology = await Database.from("technologies")
-          .where("technologies.id", element.technology_id)
-          .first()
-          .select("technologies.*");
-      });
+      const errors = await Database.select(
+        "errors.*",
+        Database.raw("technologies.name as technology")
+      )
+        .from("errors")
+        .innerJoin("technologies", "technologies.id", "errors.technology_id")
+        .where("errors.subtask_id", task_id);
 
       for (var i = 0; i < errors.length; i++) {
         errors[i].error_date = dateMaker(errors[i].error_date);
@@ -160,6 +154,7 @@ class ErrorController {
       return view.render("inv.index");
     }
   }
+
   /************************************************ */
   async create({ response, auth, view, params }) {
     const user = await auth.getUser();
@@ -244,8 +239,6 @@ class ErrorController {
       is_resolved,
     } = request.all();
 
-    console.log(is_resolved);
-
     const error = new Error();
     const task_id = params.task_id;
     error.subtask_id = task_id;
@@ -324,6 +317,8 @@ class ErrorController {
         .innerJoin("sub_tasks", "sub_tasks.id", "errors.subtask_id")
         .innerJoin("users", "users.id", "errors.user_id")
         .where("errors.id", error_id);
+
+      console.log(errors[0]);
       for (var i = 0; i < errors.length; i++) {
         errors[i].error_date = dateInputMaker(errors[i].error_date);
       }
@@ -331,7 +326,6 @@ class ErrorController {
       var n = user.firstname + " " + user.familyname;
       var r;
       if (user.role != "adm") {
-        a;
         r = "x";
       }
       return view.render("dashboard.error.update", {
@@ -351,7 +345,10 @@ class ErrorController {
   async update({ request, response, auth, params }) {
     const user = await auth.getUser();
 
-    var { name, commit, error_date, technology, description } = request.all();
+    var { name, commit, error_date, technology, description, resolve } =
+      request.all();
+
+    console.log(request.all());
 
     const error_id = params.error_id;
     const error = await Error.find(error_id);
@@ -371,6 +368,9 @@ class ErrorController {
 
     if (description != "" && description != undefined) {
       error.description = description;
+    }
+    if (resolve != "" && resolve != undefined) {
+      error.resolve = resolve;
     }
 
     await error.save().then(function () {

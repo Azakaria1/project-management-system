@@ -69,12 +69,17 @@ class TeamController {
           'GROUP_CONCAT(CONCAT(users.firstname, " ", users.familyname, " ") ) as members'
         )
       )
-        .from("teams")
-        .leftJoin("team_users", "team_users.team_id", "teams.id")
-        .leftJoin("users", "team_users.user_id", "users.id")
-        .innerJoin("projects", "teams.id", "projects.team_id")
+        .from("users")
+        .distinct()
+        .leftJoin("team_users", "users.id", "team_users.user_id")
+        .innerJoin("teams", "teams.id", "team_users.team_id")
+        .innerJoin("projects", "projects.team_id", "teams.id")
         .where("projects.leader_id", user.id)
-        .groupBy("teams.id");
+        .groupBy("projects.id");
+
+      console.table(leaderTeams);
+      console.table(userTeams);
+
       user.role != "tl" ? (Teams = userTeams) : (Teams = leaderTeams);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;

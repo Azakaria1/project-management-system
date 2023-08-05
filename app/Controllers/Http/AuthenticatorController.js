@@ -2,6 +2,7 @@
 const User = use("App/Models/User");
 
 class AuthenticatorController {
+
   async login({ view, auth, response, params }) {
     try {
       await auth.check();

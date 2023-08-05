@@ -28,6 +28,15 @@ class TaskController {
         .where("tasks.id", id_mod);
       module = module[0];
 
+
+      var allowed = await Database.select(
+        "tasks.*",
+        Database.raw("projects.name as project")
+      )
+        .from("tasks")
+        .innerJoin("projects", "projects.id", "tasks.project_id")
+        .where("tasks.id", id_mod);
+
       var status = "";
 
       var start = new Date(module.start_date);
@@ -76,6 +85,7 @@ class TaskController {
         r = "x";
       }
       if (user.role == "int" || user.role == "emp") {
+        console.log(user.role == "int");
         int = true;
       }
       return view.render("dashboard.task.index", {

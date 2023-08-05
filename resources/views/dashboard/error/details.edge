@@ -75,7 +75,7 @@ error
                         <div class="row">
                             <div class="col-md-12">  
                                 @if(error.is_resolved==1)  
-                                <button disabled type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" >Validate the error</a></button>  
+                                <button disabled type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" >Resolve the error</a></button>  
                                 @else
                                 <button type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('error_validate',{error_id:error.id}) }}">Validate the error</a></button>  
                                 @endif   

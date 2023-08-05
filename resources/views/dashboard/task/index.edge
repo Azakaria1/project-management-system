@@ -56,20 +56,19 @@ Task
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    @if(!restriction)
                     <div class="card-body">   
                         <div class="row">
                             <div class="col-md-12">    
-                                @if(!restriction)
                                     <button type="button" class="btn btn-success btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('module_validate',{module_id:id_mod,id_pro:id_pro}) }}">Finish Module</a></button>    
                                     <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"><a style=" color: white" href="{{ route('module_update',{module_id:id_mod}) }}">Edit Module</a></button>  
-                                @endif  
+                                
                                 <button type="button" class="btn btn-primary btn-block waves-effect waves-light mb-1"> <a style=" color: white" href="{{ route('task_create',{id_pro:id_pro,id_mod:id_mod}) }}">Add Tasks</a></button>  
-                                @if(!restriction)  
                                     <button type="button" class="btn btn-danger btn-block waves-effect waves-light mb-1"><a style=" color: white" href="#" onclick="cleant({{id_mod}})">Delete Module</a></button>   
-                                @endif 
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        @endif 
                 </div>
             </div>
         </div>
@@ -167,25 +166,27 @@ Task
                             <td>{{{task.status}}}</td>
                             <td > 
                                 <div style="text-align: center;">
-                                    @if(task.bool==1)
+                                    @if( !restriction )
+                                    @if(task.bool==1 )
                                         <a data-toggle="tooltip" data-placement="top" title="validate">
                                             
                                             <i class=" bx bx-list-check  font-size-22 align-middle mr-2"></i> 
                                         </a>
-                                    @else
+                                        @else
                                         <a href="{{ route('task_validate',{task_id:task.id}) }}" data-toggle="tooltip" data-placement="top" title="validate">
                                             
                                             <i class=" bx bx-list-check  font-size-22 align-middle mr-2"></i> 
                                         </a>
-                                    @endif
-                                    <a onclick="clean({{task.id}});" href="#" data-toggle="tooltip" data-placement="top" title="delete">
-                                        
-                                        <i class=" bx bx-x  font-size-22 align-middle mr-2"></i> 
+                                        @endif
+                                        <a onclick="clean({{task.id}});" href="#" data-toggle="tooltip" data-placement="top" title="delete">
+                                            
+                                            <i class=" bx bx-x  font-size-22 align-middle mr-2"></i> 
                                     </a>
                                     
                                     <a href="{{ route('task_edit',{task_id:task.id}) }}" data-toggle="tooltip" data-placement="top" title="edit">
                                         <i class=" bx bx-pencil  font-size-22 align-middle mr-2"></i> 
                                     </a >
+                                    @endif
                                     <a href="{{ route('error_create',{task_id:task.id}) }}" data-toggle="tooltip" data-placement="top" title="Add an error">
                                         <i class="  mdi mdi-bug-outline  font-size-22 align-middle mr-2"></i> 
                                     </a >

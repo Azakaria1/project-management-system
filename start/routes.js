@@ -124,7 +124,10 @@ Route.get("/technology/:tech_id/projects", "ProjectController.index").as("techno
 Route.get("/index_staff", "DashboardController.index").middleware(["auth"]);
 /* inv */
 Route.get("/inv", "DashboardController.index").middleware(["auth"]);
-Route.get("/logout", async({ auth, response }) => {
+Route.get("/logout", async({ auth, response, session }) => {
     await auth.logout();
+    session.clear();
+    response.clearCookie('adonis-session');
+
     return response.redirect("/");
 });

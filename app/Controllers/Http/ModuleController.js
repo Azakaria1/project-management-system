@@ -48,6 +48,8 @@ class ModuleController {
         .leftJoin("technologies", "tech_pros.technology_id", "technologies.id")
         .where("projects.id", id_project);
       var project = projects[0];
+
+      console.table(project);
       var status = "";
       var start = new Date(project.start_date);
       var end = new Date(project.end_date);
@@ -120,12 +122,16 @@ class ModuleController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+
       var int;
-      if (user.role == "int") {
+
+      var isTeamLeaderOrAdmin;
+      project.leader_id == user.id || user.role == "adm"
+        ? (isTeamLeaderOrAdmin = true)
+        : (isTeamLeaderOrAdmin = false);
+
+      console.log(isTeamLeaderOrAdmin);
+      if (user.role == "int" || user.role == "emp") {
         int = true;
       }
       return view.render("dashboard.module.index", {
@@ -134,7 +140,8 @@ class ModuleController {
         project: project,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
+        isTeamLeaderOrAdmin: isTeamLeaderOrAdmin,
         restriction: int,
       });
     } else {
