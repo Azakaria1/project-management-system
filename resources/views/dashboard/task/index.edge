@@ -166,7 +166,7 @@ Task
                             <td>{{{task.status}}}</td>
                             <td > 
                                 <div style="text-align: center;">
-                                    @if( !restriction )
+                                    @if( myrole == 'adm' || myrole == 'tl' )
                                     @if(task.bool==1 )
                                         <a data-toggle="tooltip" data-placement="top" title="validate">
                                             

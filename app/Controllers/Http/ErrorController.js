@@ -15,13 +15,21 @@ class ErrorController {
       user.role == "tl"
     ) {
       var errors;
-      if (user.role == "adm" || user.role == "tl") {
+      if (user.role == "adm") {
         errors = await Database.select(
           "errors.*",
           Database.raw("technologies.name as technology")
         )
           .from("errors")
           .innerJoin("technologies", "technologies.id", "errors.technology_id");
+      } else if (user.role == "tl") {
+        errors = await Database.select("errors.*")
+          .from("errors")
+          .distinct()
+          .leftJoin("sub_tasks", "sub_tasks.id", "errors.subtask_id")
+          .leftJoin("tasks", "tasks.id", "sub_tasks.task_id")
+          .leftJoin("projects", "projects.id", "tasks.project_id")
+          .where("projects.leader_id", user.id);
       } else {
         errors = await Database.select(
           "errors.*",
@@ -31,6 +39,7 @@ class ErrorController {
           .innerJoin("technologies", "technologies.id", "errors.technology_id")
           .where("errors.user_id", user.id);
       }
+
       for (var i = 0; i < errors.length; i++) {
         errors[i].error_date = dateMaker(errors[i].error_date);
         if (errors[i].is_resolved == 1) {
@@ -41,10 +50,7 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+     
       var isUserAuthorizedToModifyError = await Error.query()
         .where("user_id", user.id)
         .first();
@@ -58,13 +64,14 @@ class ErrorController {
         errors: errors,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
         allowed: isUserAuthorizedToModifyError,
       });
     } else {
       return view.render("inv.index");
     }
   }
+
   /************************************************ */
   async details({ response, auth, view, params }) {
     const user = await auth.getUser();
@@ -99,15 +106,12 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+      
       return view.render("dashboard.error.details", {
         error: errors[0],
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -140,15 +144,12 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+      
       return view.render("dashboard.error.index", {
         errors: errors,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -168,21 +169,19 @@ class ErrorController {
       const technologies = await Database.from("technologies");
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+      
       return view.render("dashboard.error.create", {
         technologies: technologies,
         task_id: task_id,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
     }
   }
+
   /************************************************* */
   async solving({ response, auth, view, params }) {
     const user = await auth.getUser();
@@ -195,15 +194,12 @@ class ErrorController {
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
       const error_id = params.error_id;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+   
       return view.render("dashboard.error.solve", {
         error_id: error_id,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -225,6 +221,7 @@ class ErrorController {
     });
     return response.redirect("/error/index");
   }
+
   /************************************************* */
   async store({ request, response, auth, params }) {
     const user = await auth.getUser();
@@ -324,17 +321,14 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+    
       return view.render("dashboard.error.update", {
         error: errors[0],
         error_id: error_id,
         technologies: technologies,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -380,6 +374,7 @@ class ErrorController {
     return response.redirect("/error/index");
   }
 }
+
 function dateMaker(d) {
   var date = new Date(d);
   var day = date.getDate();
@@ -390,6 +385,7 @@ function dateMaker(d) {
   var year = date.getFullYear();
   return day + "-" + month + "-" + year;
 }
+
 function dateInputMaker(d) {
   var date = new Date(d);
   var day = date.getDate() + "";
@@ -403,4 +399,5 @@ function dateInputMaker(d) {
   var year = date.getFullYear();
   return year + "-" + month + "-" + day;
 }
+
 module.exports = ErrorController;

@@ -23,16 +23,13 @@ class CalenderController {
     }
     var i = user.img;
     var n = user.firstname + " " + user.familyname;
-    var r;
-    if (user.role != "adm") {
-      r = "x";
-    }
+    
     console.log(JSON.stringify(mytasks));
     return view.render("dashboard.calendar.index", {
       mytasks: JSON.stringify(mytasks),
       img: i,
       myname: n,
-      myrole: r,
+      myrole: user.role,
     });
   }
 }

@@ -32,8 +32,13 @@ module.exports = {
     model: 'App/Models/User',
     scheme: 'session',
     uid: 'username',
-    password: 'password'
+    password: 'password',
   },
+
+  /* rememberMe: {
+    enabled: true,
+    field: 'remember_me',
+  }, */
 
   /*
   |--------------------------------------------------------------------------

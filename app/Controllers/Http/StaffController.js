@@ -14,6 +14,7 @@ class StaffController {
       var n = user.firstname + " " + user.familyname;
       return view.render("dashboard.staff.index", {
         img: i,
+        myrole: user.role,
         myname: n,
       });
     } else if (user.role == "int" || user.role == "emp" || user.role == "tl") {
@@ -22,6 +23,7 @@ class StaffController {
       return view.render("inv.index");
     }
   }
+  
   async profil({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (user.role == "adm") {
@@ -87,12 +89,15 @@ class StaffController {
       return view.render("inv.index");
     }
   }
-  async userTasks({ response, params }) {
+
+  async userTasks({ response, params, auth }) {
+    const user = await auth.getUser();
     const role = params.type;
     try {
       var users = User.query().with("subTask", (builder) => {
         builder.where("status", "pg").orWhere("status", "td");
-      });
+      })
+        .whereNot("id", user.id);
       if (role != "all" && role != undefined && role != null) {
         users = users.where("role", role);
       }

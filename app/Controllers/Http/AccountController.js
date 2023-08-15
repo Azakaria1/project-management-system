@@ -1,9 +1,15 @@
 "use strict";
 
+const { name } = require("@adonisjs/ace/lib/commander");
+
 const Database = use("Database");
-const User = use('App/Models/User');
-const TrelloAccounts = use('App/Models/TrelloAccounts');
-const TrelloBoards = use('App/Models/TrelloBoards');
+
+const SubTask = use("App/Models/SubTask");
+const SubTaskUser = use("App/Models/SubTaskUser");
+
+const User = use("App/Models/User");
+const TrelloAccounts = use("App/Models/TrelloAccounts");
+const TrelloBoards = use("App/Models/TrelloBoards");
 const Hash = use("Hash");
 const Helpers = use("Helpers");
 const fetch = (...args) =>
@@ -11,7 +17,7 @@ const fetch = (...args) =>
 
 class AccountController {
 
-  async edit({ auth, view, params }) {
+  async edit({ auth, view, response, params }) {
     const user = await auth.getUser();
     user.password = "";
     var i = user.img;
@@ -20,6 +26,13 @@ class AccountController {
     if (user.role != "adm") {
       r = "x";
     }
+
+    response.cookie('remember_token', user.remember_token, {
+      httpOnly: true, // Cookie cannot be accessed via JavaScript
+      maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expiration (e.g., 7 days)
+      sameSite: 'strict', // Control cookie sharing with cross-site requests
+    });
+
     return view.render("dashboard.account.update", {
       user: user,
       img: i,
@@ -89,7 +102,7 @@ class AccountController {
   async uploadImage({ request, response, params }) {
     console.log("something happened");
     const id = params.id;
-    //console.log(request._files);
+
     const user = await User.find(id);
     const filetoUpload = request.file("file", {
       types: ["jpg", "jpeg", "jpeg", "gif", "png"],
@@ -132,9 +145,32 @@ class AccountController {
       return response.status(500).send({ data: "error" });
     }
   }
+
+  async checkCardExists(boardId, cardNameOrId) {
+    try {
+      const response = await TrelloApi.get(`/boards/${boardId}/cards`, {
+        params: {
+          fields: "name", // You can request additional fields as needed
+        },
+      });
+
+      const matchingCard = response.data.find(
+        (card) => card.name === cardNameOrId || card.id === cardNameOrId
+      );
+
+      if (matchingCard) {
+        console.log("Card exists:", matchingCard.name);
+      } else {
+        console.log("Card does not exist.");
+      }
+    } catch (error) {
+      console.error("Error checking card existence:", error);
+    }
+  }
+
   async addtrello({ auth, request, response }) {
+    const user = await auth.getUser();
     const { id, key, token, board, td, ip, dn } = request.all();
-    console.table(request.all());
 
     if (key != "" && key != undefined && token != "" && token != undefined) {
       if (
@@ -152,30 +188,124 @@ class AccountController {
         trelloBoards.todo = td;
         trelloBoards.going = ip;
         trelloBoards.done = dn;
-        console.table(trelloBoards);
-        await trelloBoards.save().then(function () {
-          console.log("A trello Board has been saved");
-        });
+
+        const boardExists = await Database.from("trello_boards")
+          .where("id_board", trelloBoards.id_board)
+          .first();
+
+        if (!boardExists) {
+          await trelloBoards.save().then(function () {
+            console.log("A trello Board has been saved");
+          });
+        } else {
+          console.log("Board already exists !");
+        }
 
         const trelloAccounts = new TrelloAccounts();
         trelloAccounts.key = key;
         trelloAccounts.token = token;
         trelloAccounts.trello_board_id = trelloBoards.id;
-        await this.moveEachCardToTrello(
-          trelloBoards.going,
-          trelloAccounts.key,
-          trelloAccounts.token
-        );
-        await this.moveEachCardToTrello(
-          trelloBoards.todo,
-          trelloAccounts.key,
-          trelloAccounts.token
-        );
-        await this.moveEachCardToTrello(
-          trelloBoards.done,
-          trelloAccounts.key,
-          trelloAccounts.token
-        );
+
+        const subTasksTodo = await SubTask.query()
+          .where("status", "td")
+          .leftJoin(
+            "sub_task_users",
+            "sub_tasks.id",
+            "sub_task_users.sub_task_id"
+          )
+          .where("sub_task_users.user_id", user.id)
+          .fetch();
+
+        if (subTasksTodo.rows != []) {
+          subTasksTodo.rows.forEach(async (element) => {
+            await this.moveEachCardToTrello(
+              trelloBoards.todo,
+              trelloAccounts.key,
+              trelloAccounts.token,
+              element.name,
+              element.description,
+              new Date(element.start_date).toISOString(),
+              element.end_date,
+              0
+            );
+          });
+        }
+
+        const subTasksInProgress = await SubTask.query()
+          .where("status", "pg")
+          .leftJoin(
+            "sub_task_users",
+            "sub_tasks.id",
+            "sub_task_users.sub_task_id"
+          )
+          .where("sub_task_users.user_id", user.id)
+          .fetch();
+
+        if (subTasksInProgress.rows != []) {
+          subTasksInProgress.rows.forEach(async (element) => {
+            this.checkCardExists(trelloBoards.id_board, element.name);
+            console.log(element.name);
+            console.log(trelloBoards.id_board);
+            await this.moveEachCardToTrello(
+              trelloBoards.going,
+              trelloAccounts.key,
+              trelloAccounts.token,
+              element.name,
+              element.description,
+              new Date(element.start_date).toISOString(),
+              element.end_date,
+              0
+            );
+          });
+        }
+
+        const subTasksDone = await SubTask.query()
+          .where("status", "fn")
+          .leftJoin(
+            "sub_task_users",
+            "sub_tasks.id",
+            "sub_task_users.sub_task_id"
+          )
+          .where("sub_task_users.user_id", user.id)
+          .fetch();
+
+        if (subTasksDone.rows != []) {
+          subTasksDone.rows.forEach(async (element) => {
+            /* 
+            
+            const userIds = await SubTaskUser.query()
+              .where("sub_task_users.sub_task_id", element.id)
+              .pluck("sub_task_users.user_id");
+              
+              userIds.forEach( async element => {
+              console.log(" => " + element)
+
+            const trelloAccount = await Database.from('trello_accounts')
+              .select('id_trello')
+              .where('user_id', element)
+              .first();
+            
+            if (trelloAccount) {
+              console.log("Trello ID:", trelloAccount.trello_id);
+            } else {
+              console.log("No Trello account found for the specified user ID.");
+            }
+            
+            }) */
+
+            await this.moveEachCardToTrello(
+              trelloBoards.done,
+              trelloAccounts.key,
+              trelloAccounts.token,
+              element.name,
+              element.description,
+              new Date(element.start_date).toISOString(),
+              element.end_date,
+              1
+            );
+          });
+        }
+
         var req = "https://api.trello.com/1/members/me?key=";
         req = req + key + "&token=" + token;
         var resp = await fetch(req, { method: "GET" })
@@ -189,35 +319,47 @@ class AccountController {
         trelloAccounts.id_trello = x.id;
         trelloAccounts.user_id = auth.user.id;
 
-        await trelloAccounts.save().then(function () {
-          console.log("A trello Accounts has been saved");
-          console.table(trelloAccounts);
-        });
+        const accountExists = await Database.from("trello_accounts")
+          .where("id_trello", trelloAccounts.id_trello)
+          .first();
+
+        if (!accountExists) {
+          await trelloAccounts.save().then(function () {
+            console.log("A trello Accounts has been saved");
+          });
+        } else {
+          console.log("Account already exists !");
+        }
       }
     }
   }
 
-  async moveEachCardToTrello(idList, trelloKey, trelloToken) {
-    fetch(
-      "https://api.trello.com/1/cards?idList=" +
-        idList +
-        "&key=" +
-        trelloKey +
-        "&token=" +
-        trelloToken,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    )
-      .then((response) => {
-        console.log(`Response: ${response.status} ${response.statusText}`);
-        return response.text();
+  async moveEachCardToTrello(
+    idList,
+    trelloKey,
+    trelloToken,
+    name,
+    description,
+    start_date,
+    end_date,
+    completed
+  ) {
+    const apiUrl = `https://api.trello.com/1/cards?key=${trelloKey}&token=${trelloToken}&idList=${idList}&name=${encodeURIComponent(
+      name
+    )}
+&desc=${encodeURIComponent(
+      description
+    )}&due=${end_date}&start=${start_date}&dueComplete=${completed}`;
+    fetch(apiUrl, {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("New card created:", data);
       })
-      .then((text) => console.log(text))
-      .catch((err) => console.error(err));
+      .catch((error) => {
+        console.error("Error creating card:", error);
+      });
   }
 }
 

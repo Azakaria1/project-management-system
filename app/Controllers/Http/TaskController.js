@@ -79,11 +79,8 @@ class TaskController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
       var int;
-      if (user.role != "adm") {
-        r = "x";
-      }
+   
       if (user.role == "int" || user.role == "emp") {
         console.log(user.role == "int");
         int = true;
@@ -95,7 +92,7 @@ class TaskController {
         module: module,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
         restriction: int,
       });
     } else {
@@ -142,17 +139,13 @@ class TaskController {
       task.end_date = dateMaker(task.end_date);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      /* *** */
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+          
       return view.render("dashboard.task.details", {
         task: task,
         task_id: task_id,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -174,7 +167,7 @@ class TaskController {
         task_id: task_id,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -224,7 +217,7 @@ class TaskController {
         id_mod: id_mod,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -326,15 +319,12 @@ class TaskController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+      
       return view.render("dashboard.task.index", {
         tasks: tasks,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -381,15 +371,12 @@ class TaskController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+     
       return view.render("dashboard.task.index", {
         tasks: tasks,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -401,14 +388,11 @@ class TaskController {
     if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+    
       return view.render("dashboard.task.create", {
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");
@@ -497,16 +481,13 @@ class TaskController {
       sub_task.end_date = dateInputMaker(sub_task.end_date);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+      
       return view.render("dashboard.task.update", {
         task: sub_task,
         task_id: task_id,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else {
       return view.render("inv.index");

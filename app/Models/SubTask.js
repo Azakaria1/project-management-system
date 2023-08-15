@@ -16,6 +16,14 @@ class SubTask extends Model {
         }
         return super.formatDates(field, value)
       }
+
+      static get table() {
+        return 'sub_tasks';
+      }
+    
+      subTaskUsers() {
+        return this.hasMany('App/Models/SubTaskUser', 'id', 'sub_task_id');
+      }
 }
 
 module.exports = SubTask

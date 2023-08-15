@@ -41,7 +41,7 @@ Login
                                 </div>
 
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customControlInline" name="remember_me">
+                                    <input type="checkbox" class="custom-control-input" id="customControlInline" name="remember" {{ request.cookie('remember_me') ? 'checked' : '' }}>
                                     <label v-model="remember" class="custom-control-label" for="customControlInline">Remember me</label>
                                 </div>
 

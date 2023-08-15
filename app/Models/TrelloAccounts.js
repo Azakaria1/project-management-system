@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class TrelloAccounts extends Model {
+    static get table() {
+        return "trello_accounts";
+      }
 }
 
 module.exports = TrelloAccounts

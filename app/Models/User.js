@@ -2,6 +2,9 @@
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
+const Helpers = use('Helpers');
+var moment = require("moment");
+
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
@@ -21,6 +24,31 @@ class User extends Model {
     })
     
   }
+
+  async validateRememberToken(token) {
+    const rememberToken = await User.query().where('remember_token', token).first();
+
+    console.log("rememberToken " + rememberToken);
+
+    if (!rememberToken) {
+      return false;
+    }
+
+    const expirationTime = moment(rememberToken.expires_at);
+
+    if (expirationTime.isBefore(moment())) {
+      this.remember_token = null;
+
+      await this.save();
+      return false;
+    }
+
+    return true;
+  }
+  tokens() {
+    return this.hasMany('App/Models/Token');
+  }
+  
   static scopeHasSubTask (query) {
     return query.has('subTask')
   }
@@ -40,9 +68,7 @@ class User extends Model {
    *
    * @return {Object}
    */
-  tokens () {
-    return this.hasMany('App/Models/Token')
-  }
+ 
 }
 
 module.exports = User

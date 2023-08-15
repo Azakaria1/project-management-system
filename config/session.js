@@ -69,6 +69,12 @@ module.exports = {
     path: '/'
   },
 
+  remember: {
+    enabled: true,
+    cookieName: 'remember_token',
+    userModel: 'App/Models/User',
+  },
+
   /*
   |--------------------------------------------------------------------------
   | Sessions location

@@ -93,6 +93,7 @@ class ProjectController {
         projects: projects,
         img: i,
         myname: n,
+        myrole: user.role,
         tech: tech,
       });
     } else if (user.role == "int" || user.role == "emp" || user.role == "tl") {
@@ -169,7 +170,7 @@ class ProjectController {
         }
         var prog = (f * 100) / t;
 
-        projects[i].prog = prog;
+        projects[i].prog = Math.ceil(prog);
         projects[i].status = status;
         if (
           projects[i].description != undefined &&
@@ -180,10 +181,6 @@ class ProjectController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
       var int;
       if (user.role == "int" || user.role == "emp") {
         int = true;
@@ -192,7 +189,7 @@ class ProjectController {
         projects: projects,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
         restriction: int,
       });
     } else {
@@ -211,10 +208,7 @@ class ProjectController {
       const technologies = await Database.from("technologies");
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+     
 
       return view.render("dashboard.project.create", {
         users: users,
@@ -290,15 +284,12 @@ class ProjectController {
       const project_id = params.project_id;
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+     
       return view.render("dashboard.project.validate", {
         project_id: project_id,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else if (user.role == "int") {
       return response.redirect("/index");
@@ -358,10 +349,7 @@ class ProjectController {
       project.end_date = dateInputMaker(project.end_date);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+    
       return view.render("dashboard.project.update", {
         project: project,
         img: i,
@@ -369,6 +357,7 @@ class ProjectController {
         teams: teams,
         user: user,
         users: users,
+        myrole: user.role,
         technologies: technologies,
       });
     } else if (user.role == "int" || user.role == "emp") {
@@ -450,6 +439,8 @@ class ProjectController {
       const tp = new TechPro();
       tp.project_id = projects.id;
       tp.technology_id = to_add[i];
+      console.log("to add => "+ to_add);
+      console.log("to del => "+ to_del);
       await tp.save().then(function () {
         console.log("a Tech Pro has been add");
       });
@@ -483,9 +474,11 @@ function dateMaker(d) {
   var year = date.getFullYear();
   return day + "-" + month + "-" + year;
 }
+
 function arr_diff(a1, a2) {
   return a1.filter((x) => !a2.includes(x));
 }
+
 function dateInputMaker(d) {
   var date = new Date(d);
   var day = date.getDate() + "";
@@ -499,4 +492,5 @@ function dateInputMaker(d) {
   var year = date.getFullYear();
   return year + "-" + month + "-" + day;
 }
+
 module.exports = ProjectController;

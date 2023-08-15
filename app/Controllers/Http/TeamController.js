@@ -5,7 +5,9 @@ const User = use("App/Models/User");
 const Team = use("App/Models/Team");
 const TeamUsers = use("App/Models/TeamUsers");
 const Hash = use("Hash");
+
 class TeamController {
+
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (user.role == "adm") {
@@ -24,6 +26,7 @@ class TeamController {
       return view.render("dashboard.team.index", {
         Teams: Teams,
         user: user,
+        myrole: user.role,
         img: i,
         myname: n,
       });
@@ -96,7 +99,7 @@ class TeamController {
         user: user,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
         restriction: int,
       });
     } else {
@@ -113,6 +116,7 @@ class TeamController {
       return view.render("dashboard.team.create", {
         users: users,
         user: user,
+        myrole: user.role,
         img: i,
         myname: n,
       });
@@ -188,13 +192,11 @@ class TeamController {
 
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+    
       return view.render("dashboard.team.update", {
         team: team,
         img: i,
+        myrole: user.role,
         myname: n,
         users: users,
       });

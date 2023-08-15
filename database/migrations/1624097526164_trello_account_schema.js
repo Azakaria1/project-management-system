@@ -5,15 +5,14 @@ const Schema = use('Schema')
 
 class TrelloAccountSchema extends Schema {
   up () {
-    this.create('trello_accounts', (table) => {
-      table.string('key', 80).notNullable()
-      table.string('id_trello', 80)
-      table.string('token', 80).notNullable()
-      table.integer('trello_board_id', 25).unsigned().references('id').inTable('trello_boards').onDelete('CASCADE');
-      table.integer('user_id', 25).unsigned().references('id').inTable('users').onDelete('CASCADE');
-      table.increments()
-      table.timestamps()
-    })
+    this.create('tokens', (table) => {
+      table.increments();
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
+      table.string('token', 255).notNullable().unique();
+      table.string('type', 80).notNullable();
+      table.boolean('is_revoked').defaultTo(false);
+      table.timestamps();
+    });
   }
 
   down () {

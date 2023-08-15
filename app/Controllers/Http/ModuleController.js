@@ -168,17 +168,14 @@ class ModuleController {
         .where("projects.id", id_project);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+   
       return view.render("dashboard.module.create", {
         users: users,
         team: team[0].name,
         id: id_project,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else if (user.role == "int") {
       return response.redirect("/index");
@@ -231,16 +228,13 @@ class ModuleController {
       const id_pro = params.id_pro;
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+     
       return view.render("dashboard.module.validate", {
         module_id: module_id,
         id_pro: id_pro,
         img: i,
         myname: n,
-        myrole: r,
+        myrole: user.role,
       });
     } else if (user.role == "int") {
       return response.redirect("/index");

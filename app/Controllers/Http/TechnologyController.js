@@ -5,7 +5,9 @@ const User = use("App/Models/User");
 const Technology = use("App/Models/Technology");
 const Hash = use("Hash");
 class TechnologyController {
+
   async index({ response, auth, view, params }) {
+  
     const user = await auth.getUser();
     if (user.role == "adm") {
       const page = params.page ? params.page : 1;
@@ -26,6 +28,7 @@ class TechnologyController {
         page: page,
         user: user,
         img: i,
+        myrole: user.role,
         myname: n,
       });
     } else if (user.role == "int" || user.role == "emp" || user.role == "tl") {
@@ -43,6 +46,7 @@ class TechnologyController {
       return view.render("dashboard.technology.create", {
         user: user,
         img: i,
+        myrole: user.role,
         myname: n,
       });
     } else if (user.role == "int" || user.role == "emp" || user.role == "tl") {
@@ -87,13 +91,11 @@ class TechnologyController {
       var technology = technologies[0];
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      var r;
-      if (user.role != "adm") {
-        r = "x";
-      }
+     
       return view.render("dashboard.technology.update", {
         technology: technology,
         img: i,
+        myrole: user.role,
         myname: n,
         users: users,
       });

@@ -3,8 +3,9 @@ const User = use("App/Models/User");
 const Hash = use("Hash");
 
 class UserController {
+
   async login({ request, response, session, auth }) {
-    const { username, password } = request.all();
+    const { username, password, remember } = request.all();
 
     try {
       console.table(auth);
@@ -28,38 +29,32 @@ class UserController {
     return response.redirect("/");
   }
 
-  async register({ request, response, auth, view }) {
-    const { username, firstname, familyname, phonenumber, email, password } =
-      request.all();
-    const user = new User();
-    if (username != "" && username != undefined) {
-      user.username = username;
-    }
-    if (firstname != "" && firstname != undefined) {
-      user.firstname = firstname;
-    }
-    if (familyname != "" && familyname != undefined) {
-      user.familyname = familyname;
-    }
-    if (phonenumber != "" && phonenumber != undefined) {
-      user.phonenumber = phonenumber;
-    }
-    if (email != "" && email != undefined) {
-      user.email = email;
-    }
-    if (password != "" && password != undefined) {
-      user.password = password;
-    }
+  async register({ request, response, view }) {
     try {
+      const { username, firstname, familyname, phonenumber, email, password } = request.all();
+  
+      // Add validation checks here
+  
+      const user = new User();
+      user.username = username;
+      user.firstname = firstname;
+      user.familyname = familyname;
+      user.phonenumber = phonenumber;
+      user.email = email;
+      user.password = password;
+  
+      console.log(user);
+  
       await user.save();
       console.log("A User has been added !");
-      /* await auth.login(user); */
+      
       return response.redirect("/");
     } catch (error) {
+      console.error(error);
       return view.render("auth.register", { err: error.code });
     }
   }
-
+  
   async create({ view, auth, response, params }) {
     try {
       await auth.check();

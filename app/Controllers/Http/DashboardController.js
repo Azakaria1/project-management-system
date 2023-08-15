@@ -10,14 +10,19 @@ class DashboardController {
   async index({ auth, view, session }) {
     const user = await auth.getUser();
 
-      console.log("ROLE => "+ session.get('role'));
+    console.log("ROLE => " + session.get("role"));
 
     var r, data, ii, n;
-    
+
     //console.log("user role => " + user.role);
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
-       ii = user.img;
-       n = user.firstname + " " + user.familyname;
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
+      ii = user.img;
+      n = user.firstname + " " + user.familyname;
       const todo = await Database.select("sub_tasks.*")
         .from("sub_tasks")
         .innerJoin(
@@ -57,7 +62,7 @@ class DashboardController {
         "blue-grey",
         "red",
       ];
-       data = [];
+      data = [];
       var td = { id: "1", title: "TO DO", headerBg: "red" };
       var td_items = [];
       for (var i = 0; i < todo.length; i++) {
@@ -97,9 +102,9 @@ class DashboardController {
         img: ii,
         myname: n,
         data: JSON.stringify(data),
-        myrole: session.get('role'),
+        myrole: session.get("role"),
       });
-    }/*  else {
+    } /*  else {
       return view.render("inv.index", {
         img: ii,
         myname: n,
@@ -107,8 +112,8 @@ class DashboardController {
         myrole: r,
       });
     } */
-    
   }
+
   async edit({ response, request }) {
     const { id, date, title } = request.all();
     const task = await SubTask.find(id);
@@ -127,6 +132,7 @@ class DashboardController {
         return response.status(500).json({ error: e });
       });
   }
+
   async add({ response, request, auth }) {
     const { id, text, date } = request.all();
     console.log(date);
@@ -199,6 +205,7 @@ class DashboardController {
         });
     }
   }
+
   async move({ response, request }) {
     const { id, eid } = request.all();
     const task = await SubTask.find(eid);
@@ -225,7 +232,9 @@ class DashboardController {
         return response.status(500).json({ error: e });
       });
   }
+
 }
+
 function dateMaker(d) {
   var date = new Date(d);
   var day = date.getDate() + "";
@@ -239,4 +248,5 @@ function dateMaker(d) {
   var year = date.getFullYear();
   return year + "-" + month + "-" + day;
 }
+
 module.exports = DashboardController;
