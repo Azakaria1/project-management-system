@@ -30,7 +30,7 @@ Route.get("/search_lists", "AccountController.search_lists");
 Route.post("/uploadimage/:id", "AccountController.uploadImage");
 Route.post("/addtrello", "AccountController.addtrello");
 /* admin */
-Route.get("/index", "DashboardController.index").middleware(["auth", "rememberMe"]);
+Route.get("/index", "DashboardController.index").middleware(["auth"/* , "rememberMe" */]);
 Route.get("/calendar", "CalendarController.index").middleware(["auth", "rememberMe"]);
 Route.post("/edit_canvan", "DashboardController.edit").middleware(["auth", "rememberMe"]);
 Route.get("/move_canvan", "DashboardController.move").middleware(["auth", "rememberMe"]);

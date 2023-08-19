@@ -3,7 +3,6 @@ const User = use("App/Models/User");
 const Hash = use("Hash");
 
 class UserController {
-
   async login({ request, response, session, auth }) {
     const { username, password, remember } = request.all();
 
@@ -13,8 +12,18 @@ class UserController {
       await auth.attempt(username, password);
       auth
         .getUser()
-        .then((user) => {
-          session.put("role", user.role);
+        .then(async (user) => {
+          if (user.role != "not") session.put("role", user.role);
+          else {
+            await auth.logout();
+
+            session.clear();
+            console.log("deco");
+            response.clearCookie("remember_token");
+
+            response.clearCookie("adonis-session");
+            response.redirect("/");
+          }
         })
         .catch((error) => {
           // Handle errors
@@ -31,10 +40,11 @@ class UserController {
 
   async register({ request, response, view }) {
     try {
-      const { username, firstname, familyname, phonenumber, email, password } = request.all();
-  
+      const { username, firstname, familyname, phonenumber, email, password } =
+        request.all();
+
       // Add validation checks here
-  
+
       const user = new User();
       user.username = username;
       user.firstname = firstname;
@@ -42,19 +52,19 @@ class UserController {
       user.phonenumber = phonenumber;
       user.email = email;
       user.password = password;
-  
+
       console.log(user);
-  
+
       await user.save();
       console.log("A User has been added !");
-      
+
       return response.redirect("/");
     } catch (error) {
       console.error(error);
       return view.render("auth.register", { err: error.code });
     }
   }
-  
+
   async create({ view, auth, response, params }) {
     try {
       await auth.check();
