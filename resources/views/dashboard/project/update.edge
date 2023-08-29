@@ -58,7 +58,9 @@ Update Project
                                 <input value='{{project.end_date}}' class="form-control" type="date" name="end_date" id="end_date" placeholder="Type name">
                             </div>
                         </div>
-                       <div class="form-group row">
+                       
+                        @if(myrole != 'tl')
+                        <div class="form-group row">
                             <label for="item-0" class="col-md-3 col-form-label">Team leader :</label>
                             <div class="col-md-9">
                                 <select class="select2 form-control" name="leader_id" id="leader_id">
@@ -68,9 +70,10 @@ Update Project
                                         <option value="{{user.id}}">{{user.firstname}} {{user.familyname}}</option>
                                     @endeach
                                 </select>
-                            </div>
-
+                            </div>                            
                         </div>
+                        @endif
+                        
                         <div class="form-group row">
                             <label for="item-0" class="col-md-3 col-form-label">Team :</label>
                             <div class="col-md-9">

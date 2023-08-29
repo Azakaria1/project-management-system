@@ -6,13 +6,10 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 class DashboardController {
-
   async index({ auth, view, session }) {
     const user = await auth.getUser();
 
-    console.log("ROLE => " + session.get("role"));
-
-    var r, data, ii, n;
+    var data, ii, n;
 
     //console.log("user role => " + user.role);
     if (
@@ -232,7 +229,6 @@ class DashboardController {
         return response.status(500).json({ error: e });
       });
   }
-
 }
 
 function dateMaker(d) {

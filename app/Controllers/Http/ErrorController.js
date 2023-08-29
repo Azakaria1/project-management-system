@@ -6,6 +6,7 @@ const Error = use("App/Models/Error");
 const Hash = use("Hash");
 
 class ErrorController {
+  
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (
@@ -16,6 +17,20 @@ class ErrorController {
     ) {
       var errors;
       if (user.role == "adm") {
+        const errors = await Database.select(
+          "errors.*",
+          Database.raw(
+            'CONCAT(users.firstname, " ", users.familyname, " ") as user'
+          ),
+          Database.raw("technologies.name as technology"),
+          Database.raw("sub_tasks.name as task")
+        )
+          .from("errors")
+          .innerJoin("technologies", "technologies.id", "errors.technology_id")
+          .innerJoin("sub_tasks", "sub_tasks.id", "errors.subtask_id")
+          .innerJoin("users", "users.id", "errors.user_id")
+          .where("errors.id", error_id);
+
         errors = await Database.select(
           "errors.*",
           Database.raw("technologies.name as technology")
@@ -23,13 +38,19 @@ class ErrorController {
           .from("errors")
           .innerJoin("technologies", "technologies.id", "errors.technology_id");
       } else if (user.role == "tl") {
-        errors = await Database.select("errors.*")
+        errors = await Database.select(
+          "errors.*",
+          "technologies.name as technology"
+        )
           .from("errors")
           .distinct()
-          .leftJoin("sub_tasks", "sub_tasks.id", "errors.subtask_id")
-          .leftJoin("tasks", "tasks.id", "sub_tasks.task_id")
-          .leftJoin("projects", "projects.id", "tasks.project_id")
+          .innerJoin("technologies", "technologies.id", "errors.technology_id")
+          .innerJoin("sub_tasks", "sub_tasks.id", "errors.subtask_id")
+          .innerJoin("tasks", "tasks.id", "sub_tasks.task_id")
+          .innerJoin("projects", "projects.id", "tasks.project_id")
           .where("projects.leader_id", user.id);
+
+        console.table(errors);
       } else {
         errors = await Database.select(
           "errors.*",
@@ -50,7 +71,7 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-     
+
       var isUserAuthorizedToModifyError = await Error.query()
         .where("user_id", user.id)
         .first();
@@ -106,7 +127,7 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      
+
       return view.render("dashboard.error.details", {
         error: errors[0],
         img: i,
@@ -144,7 +165,7 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      
+
       return view.render("dashboard.error.index", {
         errors: errors,
         img: i,
@@ -169,7 +190,7 @@ class ErrorController {
       const technologies = await Database.from("technologies");
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      
+
       return view.render("dashboard.error.create", {
         technologies: technologies,
         task_id: task_id,
@@ -194,7 +215,7 @@ class ErrorController {
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
       const error_id = params.error_id;
-   
+
       return view.render("dashboard.error.solve", {
         error_id: error_id,
         img: i,
@@ -321,7 +342,7 @@ class ErrorController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-    
+
       return view.render("dashboard.error.update", {
         error: errors[0],
         error_id: error_id,

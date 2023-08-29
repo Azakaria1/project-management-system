@@ -14,7 +14,9 @@ class RememberMe {
       const shouldExclude = excludedRoutes.some(route => request.url().startsWith(route));
 
       if (!shouldExclude) {
-        const user = await User.query().where('remember_token', request.cookie('remember_token')).first()
+        const user = await User.query().where('remember_token', request.cookie('remember_token'))
+        .where('token_expires_at', '>', new Date()) // Check token expiration
+        .first()
 
         console.table("retrieved user " + user);
         if (user) {

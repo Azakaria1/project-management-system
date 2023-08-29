@@ -1,41 +1,49 @@
 "use strict";
 const User = use("App/Models/User");
 const Hash = use("Hash");
+const { v4: uuidv4 } = require("uuid");
 
 class UserController {
+  
   async login({ request, response, session, auth }) {
     const { username, password, remember } = request.all();
 
     try {
-      console.table(auth);
-      console.log("gdv");
       await auth.attempt(username, password);
-      auth
-        .getUser()
-        .then(async (user) => {
-          if (user.role != "not") session.put("role", user.role);
-          else {
-            await auth.logout();
+      const user = await auth.getUser();
 
-            session.clear();
-            console.log("deco");
-            response.clearCookie("remember_token");
+      if (user.role !== "not") {
+        if (remember) {
+          const maxAgeMilliseconds = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
-            response.clearCookie("adonis-session");
-            response.redirect("/");
-          }
-        })
-        .catch((error) => {
-          // Handle errors
-          console.error(error);
-        });
+          const rememberToken = uuidv4();
 
-      return response.redirect("/index");
+          user.remember_token = rememberToken;
+          user.token_expires_at = new Date(Date.now() + maxAgeMilliseconds);
+          await user.save();
+
+          response.cookie("remember_token", rememberToken, {
+            httpOnly: true,
+            maxAge: maxAgeMilliseconds,
+            sameSite: "strict",
+          });
+        }
+
+        session.put("role", user.role);
+        return response.redirect("/index");
+      } else {
+        await auth.logout();
+        session.clear();
+
+        response.clearCookie("remember_token");
+        response.clearCookie("adonis-session");
+
+        return response.redirect("/");
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      return response.redirect("/");
     }
-
-    return response.redirect("/");
   }
 
   async register({ request, response, view }) {

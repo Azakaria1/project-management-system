@@ -7,6 +7,7 @@ const TechPro = use("App/Models/TechPro");
 const Hash = use("Hash");
 
 class ProjectController {
+  
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (user.role == "adm") {
@@ -208,7 +209,6 @@ class ProjectController {
       const technologies = await Database.from("technologies");
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-     
 
       return view.render("dashboard.project.create", {
         users: users,
@@ -284,7 +284,7 @@ class ProjectController {
       const project_id = params.project_id;
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-     
+
       return view.render("dashboard.project.validate", {
         project_id: project_id,
         img: i,
@@ -297,6 +297,7 @@ class ProjectController {
       return view.render("inv.index");
     }
   }
+
   async finish({ request, auth, view, params, response }) {
     const user = await auth.getUser();
 
@@ -349,7 +350,7 @@ class ProjectController {
       project.end_date = dateInputMaker(project.end_date);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-    
+
       return view.render("dashboard.project.update", {
         project: project,
         img: i,
@@ -386,6 +387,9 @@ class ProjectController {
     const project_id = params.project_id;
     const projects = await Project.find(project_id);
 
+    if (user.role == "tl") {
+      projects.leader_id = user.id;
+    }
     var x;
     if (oldtech == "null") {
       x = [];
@@ -439,8 +443,8 @@ class ProjectController {
       const tp = new TechPro();
       tp.project_id = projects.id;
       tp.technology_id = to_add[i];
-      console.log("to add => "+ to_add);
-      console.log("to del => "+ to_del);
+      console.log("to add => " + to_add);
+      console.log("to del => " + to_del);
       await tp.save().then(function () {
         console.log("a Tech Pro has been add");
       });

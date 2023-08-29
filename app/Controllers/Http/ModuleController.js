@@ -7,6 +7,7 @@ const TaskUser = use("App/Models/TaskUser");
 const Hash = use("Hash");
 
 class ModuleController {
+  
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (
@@ -168,7 +169,7 @@ class ModuleController {
         .where("projects.id", id_project);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-   
+
       return view.render("dashboard.module.create", {
         users: users,
         team: team[0].name,
@@ -228,7 +229,7 @@ class ModuleController {
       const id_pro = params.id_pro;
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-     
+
       return view.render("dashboard.module.validate", {
         module_id: module_id,
         id_pro: id_pro,
@@ -242,6 +243,7 @@ class ModuleController {
       return view.render("inv.index");
     }
   }
+
   async finish({ request, auth, view, params, response }) {
     const user = await auth.getUser();
 
@@ -373,9 +375,11 @@ class ModuleController {
       });
   }
 }
+
 function arr_diff(a1, a2) {
   return a1.filter((x) => !a2.includes(x));
 }
+
 function dateMaker(d) {
   var date = new Date(d);
   var day = date.getDate();
@@ -386,6 +390,7 @@ function dateMaker(d) {
   var year = date.getFullYear();
   return day + "/" + month + "/" + year;
 }
+
 function dateInputMaker(d) {
   var date = new Date(d);
   var day = date.getDate() + "";

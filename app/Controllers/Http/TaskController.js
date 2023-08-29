@@ -7,10 +7,15 @@ const SubTaskUser = use("App/Models/SubTaskUser");
 const Hash = use("Hash");
 
 class TaskController {
-
+  
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const id_mod = params.id_mod;
       const id_pro = params.id_pro;
       const tasks = await Database.from("sub_tasks").where(
@@ -27,7 +32,6 @@ class TaskController {
         .innerJoin("projects", "projects.id", "tasks.project_id")
         .where("tasks.id", id_mod);
       module = module[0];
-
 
       var allowed = await Database.select(
         "tasks.*",
@@ -80,7 +84,7 @@ class TaskController {
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
       var int;
-   
+
       if (user.role == "int" || user.role == "emp") {
         console.log(user.role == "int");
         int = true;
@@ -102,7 +106,12 @@ class TaskController {
   /************************************************************************** */
   async details({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const task_id = params.task_id;
       var task = await Database.select(
         "sub_tasks.*",
@@ -139,7 +148,7 @@ class TaskController {
       task.end_date = dateMaker(task.end_date);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-          
+
       return view.render("dashboard.task.details", {
         task: task,
         task_id: task_id,
@@ -155,7 +164,12 @@ class TaskController {
 
   async validate({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const task_id = params.task_id;
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
@@ -173,6 +187,7 @@ class TaskController {
       return view.render("inv.index");
     }
   }
+
   async finish({ request, auth, view, params, response }) {
     const user = await auth.getUser();
 
@@ -191,7 +206,12 @@ class TaskController {
 
   async create({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const id_mod = params.id_mod;
       const id_pro = params.id_pro;
       const users = await Database.select("users.*")
@@ -289,7 +309,12 @@ class TaskController {
 
   async index2({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const tasks = await Database.select("sub_tasks.*")
         .from("sub_tasks")
         .innerJoin(
@@ -298,7 +323,7 @@ class TaskController {
           "sub_tasks.id"
         )
         .where("sub_task_users.user_id", user.id);
-      console.log(tasks); 
+      console.log(tasks);
       for (var i = 0; i < tasks.length; i++) {
         tasks[i].bool = 0;
         if (tasks[i].status == "td") {
@@ -319,7 +344,7 @@ class TaskController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      
+
       return view.render("dashboard.task.index", {
         tasks: tasks,
         img: i,
@@ -330,10 +355,16 @@ class TaskController {
       return view.render("inv.index");
     }
   }
+
   /****************************************************************************** */
   async search({ request, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const { state, weight } = request.all();
       var query = Database.select("sub_tasks.*")
         .from("sub_tasks")
@@ -371,7 +402,7 @@ class TaskController {
       }
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-     
+
       return view.render("dashboard.task.index", {
         tasks: tasks,
         img: i,
@@ -385,10 +416,15 @@ class TaskController {
   /****************************************************************************** */
   async create2({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-    
+
       return view.render("dashboard.task.create", {
         img: i,
         myname: n,
@@ -398,9 +434,15 @@ class TaskController {
       return view.render("inv.index");
     }
   }
+
   async store2({ request, response, auth, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const {
         name,
         start_date,
@@ -469,7 +511,12 @@ class TaskController {
 
   async edit({ response, auth, view, params }) {
     const user = await auth.getUser();
-    if (user.role == "adm" || user.role == "int" || user.role == "emp" || user.role == "tl") {
+    if (
+      user.role == "adm" ||
+      user.role == "int" ||
+      user.role == "emp" ||
+      user.role == "tl"
+    ) {
       const task_id = params.task_id;
       const sub_tasks = await Database.from("sub_tasks").where(
         "sub_tasks.id",
@@ -481,7 +528,7 @@ class TaskController {
       sub_task.end_date = dateInputMaker(sub_task.end_date);
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-      
+
       return view.render("dashboard.task.update", {
         task: sub_task,
         task_id: task_id,
@@ -554,6 +601,7 @@ function dateMaker(d) {
   var year = date.getFullYear();
   return day + "-" + month + "-" + year;
 }
+
 function dateInputMaker(d) {
   var date = new Date(d);
   var day = date.getDate() + "";

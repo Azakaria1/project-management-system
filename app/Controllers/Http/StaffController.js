@@ -5,7 +5,7 @@ const User = use("App/Models/User");
 const Hash = use("Hash");
 
 class StaffController {
-
+  
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (user.role == "adm") {
@@ -23,7 +23,7 @@ class StaffController {
       return view.render("inv.index");
     }
   }
-  
+
   async profil({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (user.role == "adm") {
@@ -81,6 +81,7 @@ class StaffController {
         user: staff,
         projects: projects,
         img: ii,
+        myrole: user.role,
         myname: n,
       });
     } else if (user.role == "int" || user.role == "emp" || user.role == "tl") {
@@ -94,9 +95,10 @@ class StaffController {
     const user = await auth.getUser();
     const role = params.type;
     try {
-      var users = User.query().with("subTask", (builder) => {
-        builder.where("status", "pg").orWhere("status", "td");
-      })
+      var users = User.query()
+        .with("subTask", (builder) => {
+          builder.where("status", "pg").orWhere("status", "td");
+        })
         .whereNot("id", user.id);
       if (role != "all" && role != undefined && role != null) {
         users = users.where("role", role);
@@ -157,6 +159,7 @@ class StaffController {
       var n = user.firstname + " " + user.familyname;
       return view.render("dashboard.staff.update", {
         staff: staff[0],
+        myrole: user.role,
         img: i,
         myname: n,
       });
@@ -171,6 +174,7 @@ class StaffController {
     const user = await auth.getUser();
     if (user.role == "adm") {
       const { role } = request.all();
+      console.log("role " + role);
 
       const staff_id = params.staff_id;
       const staff = await User.find(staff_id);
@@ -186,6 +190,7 @@ class StaffController {
     }
   }
 }
+
 function dateMaker(d) {
   var date = new Date(d);
   var day = date.getDate();

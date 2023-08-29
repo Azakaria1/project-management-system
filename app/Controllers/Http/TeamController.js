@@ -7,7 +7,7 @@ const TeamUsers = use("App/Models/TeamUsers");
 const Hash = use("Hash");
 
 class TeamController {
-
+  
   async index({ response, auth, view, params }) {
     const user = await auth.getUser();
     if (user.role == "adm") {
@@ -192,7 +192,7 @@ class TeamController {
 
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-    
+
       return view.render("dashboard.team.update", {
         team: team,
         img: i,
@@ -266,7 +266,9 @@ class TeamController {
     return response.redirect("/team");
   }
 }
+
 function arr_diff(a1, a2) {
   return a1.filter((x) => !a2.includes(x));
 }
+
 module.exports = TeamController;

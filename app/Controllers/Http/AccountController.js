@@ -16,30 +16,27 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 class AccountController {
-
   async edit({ auth, view, response, params }) {
     const user = await auth.getUser();
     user.password = "";
     var i = user.img;
     var n = user.firstname + " " + user.familyname;
     var r;
-    if (user.role != "adm") {
-      r = "x";
-    }
 
-    response.cookie('remember_token', user.remember_token, {
+    response.cookie("remember_token", user.remember_token, {
       httpOnly: true, // Cookie cannot be accessed via JavaScript
       maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie expiration (e.g., 7 days)
-      sameSite: 'strict', // Control cookie sharing with cross-site requests
+      sameSite: "strict", // Control cookie sharing with cross-site requests
     });
 
     return view.render("dashboard.account.update", {
       user: user,
       img: i,
       myname: n,
-      myrole: r,
+      myrole: user.role,
     });
   }
+
   async update({ request, response, view }) {
     const { id, useremail, username, firstname, familyname, phone } =
       request.all();
@@ -85,6 +82,7 @@ class AccountController {
         } else {
           return view.render("dashboard.staff.update", {
             user: user,
+            myrole: user.role,
             error: 1,
           });
         }
@@ -126,6 +124,7 @@ class AccountController {
     }
     return response.status(200).send({ data: "yes" });
   }
+
   async search_lists({ request, response }) {
     const { key, token, board } = request.all();
 

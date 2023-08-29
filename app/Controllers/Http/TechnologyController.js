@@ -4,10 +4,10 @@ const Database = use("Database");
 const User = use("App/Models/User");
 const Technology = use("App/Models/Technology");
 const Hash = use("Hash");
+
 class TechnologyController {
 
   async index({ response, auth, view, params }) {
-  
     const user = await auth.getUser();
     if (user.role == "adm") {
       const page = params.page ? params.page : 1;
@@ -91,7 +91,7 @@ class TechnologyController {
       var technology = technologies[0];
       var i = user.img;
       var n = user.firstname + " " + user.familyname;
-     
+
       return view.render("dashboard.technology.update", {
         technology: technology,
         img: i,

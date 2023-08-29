@@ -23,7 +23,7 @@ class CalenderController {
     }
     var i = user.img;
     var n = user.firstname + " " + user.familyname;
-    
+
     console.log(JSON.stringify(mytasks));
     return view.render("dashboard.calendar.index", {
       mytasks: JSON.stringify(mytasks),
