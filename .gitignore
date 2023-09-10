@@ -7,7 +7,6 @@ tmp
 
 # Environment variables, never commit this file
 .env
-.env.example
 
 # The development sqlite file
 database/*.sqlite
@@ -15,3 +14,4 @@ database/*.sqlite
 # VSCode & Webstorm history directories
 .history
 .idea
+.env.example
