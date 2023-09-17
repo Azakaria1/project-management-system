@@ -287,6 +287,7 @@ class ModuleController {
         img: i,
         myname: n,
         users: users,
+        myrole: user.role,
       });
     } else if (user.role == "int" || user.role == "emp") {
       return view.render("pages.403");
