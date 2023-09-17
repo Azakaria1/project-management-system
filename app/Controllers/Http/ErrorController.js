@@ -17,7 +17,7 @@ class ErrorController {
     ) {
       var errors;
       if (user.role == "adm") {
-        const errors = await Database.select(
+         /* const errors = await Database.select(
           "errors.*",
           Database.raw(
             'CONCAT(users.firstname, " ", users.familyname, " ") as user'
@@ -29,7 +29,7 @@ class ErrorController {
           .innerJoin("technologies", "technologies.id", "errors.technology_id")
           .innerJoin("sub_tasks", "sub_tasks.id", "errors.subtask_id")
           .innerJoin("users", "users.id", "errors.user_id")
-          .where("errors.id", error_id);
+          .where("errors.id", error_id); */
 
         errors = await Database.select(
           "errors.*",

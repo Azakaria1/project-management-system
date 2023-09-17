@@ -157,6 +157,8 @@ class ProjectController {
           .innerJoin("projects", "tasks.project_id", "projects.id")
           .where("projects.id", projects[i].id)
           .groupBy("projects.id");
+
+          console.log("total => ", total);
         var f;
         if (finished[0] == undefined || finished[0] == null) {
           f = 0;
